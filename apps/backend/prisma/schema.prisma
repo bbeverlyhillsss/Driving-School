@@ -11,3 +11,197 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+
+// ENUMS
+
+enum Role {
+  ADMIN
+  INSTRUCTOR
+  STUDENT
+}
+
+enum StudentStatus {
+  ACTIVE
+  GRADUATED
+  EXPELLED
+}
+
+enum LessonType {
+  THEORY
+  PRACTICE
+}
+
+enum LessonStatus {
+  PLANNED
+  DONE
+  CANCELLED
+}
+
+enum ExamResult {
+  PASSED
+  FAILED
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+}
+
+// MODELS
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         Role
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  student    Student?
+  instructor Instructor?
+  authTokens AuthToken[]
+
+  @@map("users")
+}
+
+model AuthToken {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @map("user_id")
+  refreshToken String   @unique @map("refresh_token")
+  expiresAt    DateTime @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("auth_tokens")
+}
+
+model Category {
+  id            Int      @id @default(autoincrement())
+  name          String
+  minAge        Int?     @map("min_age")
+  theoryHours   Int?     @map("theory_hours")
+  practiceHours Int?     @map("practice_hours")
+  price         Decimal?
+
+  instructors Instructor[]
+  cars        Car[]
+  groups      Group[]
+  payments    Payment[]
+
+  @@map("categories")
+}
+
+model Student {
+  id        Int           @id @default(autoincrement())
+  userId    Int           @unique @map("user_id")
+  groupId   Int?          @map("group_id")
+  fullName  String        @map("full_name")
+  birthDate DateTime?     @map("birth_date")
+  phone     String?
+  address   String?
+  status    StudentStatus
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Restrict)
+  group    Group?    @relation(fields: [groupId], references: [id], onDelete: Restrict)
+  lessons  Lesson[]
+  payments Payment[]
+  exams    Exam[]
+
+  @@map("students")
+}
+
+model Instructor {
+  id              Int     @id @default(autoincrement())
+  userId          Int     @unique @map("user_id")
+  categoryId      Int     @map("category_id")
+  fullName        String  @map("full_name")
+  experienceYears Int?    @map("experience_years")
+  phone           String?
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  groups   Group[]
+  lessons  Lesson[]
+
+  @@map("instructors")
+}
+
+model Car {
+  id             Int       @id @default(autoincrement())
+  categoryId     Int       @map("category_id")
+  brand          String
+  model          String
+  plateNumber    String    @unique @map("plate_number")
+  year           Int?
+  inspectionDate DateTime? @map("inspection_date")
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  lessons  Lesson[]
+
+  @@map("cars")
+}
+
+model Group {
+  id           Int       @id @default(autoincrement())
+  categoryId   Int       @map("category_id")
+  instructorId Int       @map("instructor_id")
+  name         String
+  startDate    DateTime? @map("start_date")
+  endDate      DateTime? @map("end_date")
+
+  category   Category   @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  instructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Restrict)
+  students   Student[]
+  lessons    Lesson[]
+
+  @@map("groups")
+}
+
+model Lesson {
+  id           Int           @id @default(autoincrement())
+  instructorId Int           @map("instructor_id")
+  studentId    Int?          @map("student_id")
+  groupId      Int?          @map("group_id")
+  carId        Int?          @map("car_id")
+  type         LessonType
+  date         DateTime
+  startTime    DateTime      @map("start_time")
+  endTime      DateTime      @map("end_time")
+  status       LessonStatus?
+
+  instructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Restrict)
+  student    Student?   @relation(fields: [studentId], references: [id], onDelete: Restrict)
+  group      Group?     @relation(fields: [groupId], references: [id], onDelete: Restrict)
+  car        Car?       @relation(fields: [carId], references: [id], onDelete: Restrict)
+
+  @@map("lessons")
+}
+
+model Payment {
+  id         Int            @id @default(autoincrement())
+  studentId  Int            @map("student_id")
+  categoryId Int            @map("category_id")
+  amount     Decimal
+  date       DateTime       @default(now())
+  status     PaymentStatus?
+  purpose    String?
+
+  student  Student  @relation(fields: [studentId], references: [id], onDelete: Restrict)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@map("payments")
+}
+
+model Exam {
+  studentId Int         @map("student_id")
+  date      DateTime
+  type      LessonType
+  result    ExamResult?
+  score     Int?
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Restrict)
+
+  @@id([studentId, date])
+  @@map("exams")
+}
