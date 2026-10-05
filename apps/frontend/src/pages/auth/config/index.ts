@@ -1,0 +1,3 @@
+import { AUTH_SECTION_LINKS, AUTH_SECTION_ROUTE } from './routes'
+
+export default { AUTH_SECTION_LINKS, AUTH_SECTION_ROUTE }
