@@ -1,1 +1,0 @@
-<template>Main page</template>
