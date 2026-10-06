@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
 import { MAIN_ROUTE, MAIN_LINK } from '@/pages/main'
+import { SideBarLayout } from '../layouts'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -20,7 +21,7 @@ const router = createRouter({
           component: MAIN_ROUTE.component,
         },
       ],
-      // component - sideBarLayout
+      component: SideBarLayout,
     },
   ],
 })
