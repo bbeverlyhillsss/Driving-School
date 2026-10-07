@@ -1,4 +1,8 @@
-import { AuthResponse, RegisterPayload } from "@driving-school/shared";
+import {
+  AuthResponse,
+  LoginPayload,
+  RegisterPayload,
+} from "@driving-school/shared";
 import catchAsync from "../../utils/catch-async";
 import authService from "./auth.service";
 
@@ -18,4 +22,16 @@ export const register = catchAsync<{}, AuthResponse, RegisterPayload>(
   },
 );
 
+export const login = catchAsync<{}, AuthResponse, LoginPayload>(
+  async (req, res) => {
+    const { email, password } = req.body;
+    const userData = await authService.login({ email, password });
 
+    res.cookie("refreshToken", userData.refreshToken, {
+      maxAge: REFRESH_TOKEN_MAX_AGE,
+      httpOnly: true,
+    });
+
+    return res.status(200).json(userData);
+  },
+);

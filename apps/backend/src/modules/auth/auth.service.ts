@@ -51,13 +51,39 @@ export const register = async (
   };
 };
 
-export const login = async () => {};
+export const login = async (data: LoginPayload): Promise<AuthServiceResult> => {
+  const user = await userService.findByEmail(data.email);
+  if (!user) {
+    throw ApiError.BadRequest("User with this email not found.");
+  }
+  const isPasswordValid = await bcrypt.compare(
+    data.password,
+    user.passwordHash,
+  );
+  if (!isPasswordValid) {
+    throw ApiError.BadRequest("Invalid password.");
+  }
+
+  const sharedUser = toSharedUser(user);
+  const tokens = tokenService.generateTokens({
+    id: sharedUser.id,
+    email: sharedUser.email,
+    role: sharedUser.role,
+  });
+  await tokenService.saveToken(user.id, tokens.refreshToken);
+
+  return {
+    accessToken: tokens.accessToken,
+    refreshToken: tokens.refreshToken,
+    user: sharedUser,
+  };
+};
 
 export const logout = async () => {};
 
 export const refresh = async () => {};
 
-
 export default {
-    register
-}
+  register,
+  login,
+};
