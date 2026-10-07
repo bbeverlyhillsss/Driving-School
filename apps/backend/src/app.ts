@@ -1,6 +1,7 @@
 import cookieParser from "cookie-parser";
 import express, { type Express } from "express";
 import authRouter from "./modules/auth/auth.route";
+import errorMiddleware from "./middlewares/error.middleware";
 
 const app: Express = express();
 
@@ -13,5 +14,7 @@ app.get('/health', (req, res) => {
 })
 
 app.use('/api/auth', authRouter)
+
+app.use(errorMiddleware)
 
 export default app;
