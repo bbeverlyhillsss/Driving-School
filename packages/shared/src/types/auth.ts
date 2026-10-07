@@ -5,9 +5,6 @@ export interface RegisterPayload {
   email: string
   password: string
   fullName: string
-  birthDate?: string
-  phone?: string
-  address?: string
 }
 
 export interface LoginPayload {

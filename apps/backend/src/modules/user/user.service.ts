@@ -31,3 +31,8 @@ export const findByEmail = async (
   const client = tx ?? prisma;
   return client.user.findUnique({ where: { email } });
 };
+
+export default {
+  createUser,
+  findByEmail,
+};
