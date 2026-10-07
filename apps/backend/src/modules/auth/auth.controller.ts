@@ -50,3 +50,16 @@ export const logout = catchAsync<{}, { message: string }>(async (req, res) => {
 
   return res.status(200).json({ message: "Logout is successfully." });
 });
+
+export const refresh = catchAsync<{}, AuthResponse>(async (req, res) => {
+  const { refreshToken: oldRefreshToken } = req.cookies;
+  const { refreshToken, ...userData } =
+    await authService.refresh(oldRefreshToken);
+
+  res.cookie("refreshToken", refreshToken, {
+    maxAge: REFRESH_TOKEN_MAX_AGE,
+    httpOnly: true,
+  });
+
+  return res.status(200).json(userData);
+});

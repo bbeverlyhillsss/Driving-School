@@ -80,13 +80,48 @@ export const login = async (data: LoginPayload): Promise<AuthServiceResult> => {
 };
 
 export const logout = async (refreshToken: string) => {
-  return tokenService.removeToken(refreshToken)
-}
+  return tokenService.removeToken(refreshToken);
+};
 
-export const refresh = async () => {};
+export const refresh = async (
+  refreshToken: string | undefined,
+): Promise<AuthServiceResult> => {
+  if (!refreshToken) {
+    throw ApiError.UnauthorizedError();
+  }
+
+  const userData = tokenService.validateRefreshToken(refreshToken);
+  const tokenFromDb = await tokenService.findToken(refreshToken);
+
+  if (!userData || !tokenFromDb) {
+    throw ApiError.UnauthorizedError();
+  }
+
+  const user = await prisma.user.findUnique({ where: { id: userData.id } });
+  if (!user) {
+    throw ApiError.UnauthorizedError();
+  }
+
+  await tokenService.removeToken(refreshToken);
+
+  const sharedUser = toSharedUser(user);
+  const tokens = tokenService.generateTokens({
+    id: sharedUser.id,
+    email: sharedUser.email,
+    role: sharedUser.role,
+  });
+  await tokenService.saveToken(user.id, tokens.refreshToken);
+
+  return {
+    accessToken: tokens.accessToken,
+    refreshToken: tokens.refreshToken,
+    user: sharedUser,
+  };
+};
 
 export default {
   register,
   login,
-  logout
+  logout,
+  refresh
 };
