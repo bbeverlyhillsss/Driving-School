@@ -79,11 +79,14 @@ export const login = async (data: LoginPayload): Promise<AuthServiceResult> => {
   };
 };
 
-export const logout = async () => {};
+export const logout = async (refreshToken: string) => {
+  return tokenService.removeToken(refreshToken)
+}
 
 export const refresh = async () => {};
 
 export default {
   register,
   login,
+  logout
 };
