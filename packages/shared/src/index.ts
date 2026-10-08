@@ -3,4 +3,4 @@ export * from "./types/role";
 export * from "./types/user";
 
 
-export * from './schema/auth.schema'
+export * from './schemas/auth.schema'
