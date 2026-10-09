@@ -1,10 +1,3 @@
-<script setup lang="ts">
-import { useLogin } from '../model'
-
-const emit = defineEmits<{ success: [] }>()
-const { form, isLoading, errors, submit } = useLogin(() => emit('success'))
-</script>
-
 <template>
   <form class="flex w-full max-w-sm flex-col gap-4" @submit.prevent="submit">
     <h1 class="text-2xl font-bold">Вхід</h1>
@@ -32,3 +25,13 @@ const { form, isLoading, errors, submit } = useLogin(() => emit('success'))
     <slot name="footer" />
   </form>
 </template>
+
+<script setup lang="ts">
+import { useLogin } from '../model'
+import type { RouteLocationRaw } from 'vue-router'
+import { useRouter } from 'vue-router'
+
+const props = defineProps<{ to: RouteLocationRaw }>()
+const router = useRouter()
+const { form, isLoading, errors, submit } = useLogin(() => router.push(props.to))
+</script>

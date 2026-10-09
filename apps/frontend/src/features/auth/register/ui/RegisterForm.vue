@@ -26,8 +26,11 @@
 </template>
 
 <script setup lang="ts">
-import { useRegister } from '../model/useRegister'
+import type { RouteLocationRaw } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { useRegister } from '../model'
 
-const emit = defineEmits<{ success: [] }>()
-const { form, isLoading, errors, submit } = useRegister(() => emit('success'))
+const props = defineProps<{ to: RouteLocationRaw }>()
+const router = useRouter()
+const { form, isLoading, errors, submit } = useRegister(() => router.push(props.to))
 </script>

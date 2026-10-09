@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
-import { MAIN_LINK } from '@/pages/main'
+import { MAIN_LINK } from '@/shared/config'
 
 interface Link {
   to: RouteLocationRaw
