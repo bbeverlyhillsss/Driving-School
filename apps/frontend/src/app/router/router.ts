@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
-import { MAIN_ROUTE, MAIN_LINK } from '@/pages/main'
+import { MAIN_ROUTE } from '@/pages/main'
 import { SideBarLayout, AuthLayout } from '../layouts'
+import { MAIN_LINK } from '@/shared/config'
 
 const router = createRouter({
   history: createWebHistory(),

@@ -1,3 +1,3 @@
-import { MAIN_LINK, MAIN_ROUTE } from './route'
+import { MAIN_ROUTE } from './route'
 
-export { MAIN_LINK, MAIN_ROUTE }
+export { MAIN_ROUTE }
