@@ -1,0 +1,65 @@
+import {
+  AuthResponse,
+  LoginPayload,
+  RegisterPayload,
+} from "@driving-school/shared";
+import catchAsync from "../../utils/catch-async";
+import authService from "./auth.service";
+
+const REFRESH_TOKEN_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
+
+export const register = catchAsync<{}, AuthResponse, RegisterPayload>(
+  async (req, res) => {
+    const { fullName, email, password } = req.body;
+    const { refreshToken, ...userData } = await authService.register({
+      fullName,
+      email,
+      password,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: REFRESH_TOKEN_MAX_AGE,
+      httpOnly: true,
+    });
+
+    return res.status(201).json(userData);
+  },
+);
+
+export const login = catchAsync<{}, AuthResponse, LoginPayload>(
+  async (req, res) => {
+    const { email, password } = req.body;
+    const { refreshToken, ...userData } = await authService.login({
+      email,
+      password,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: REFRESH_TOKEN_MAX_AGE,
+      httpOnly: true,
+    });
+
+    return res.status(200).json(userData);
+  },
+);
+
+export const logout = catchAsync<{}, { message: string }>(async (req, res) => {
+  const { refreshToken } = req.cookies;
+  await authService.logout(refreshToken);
+  res.clearCookie("refreshToken");
+
+  return res.status(200).json({ message: "Logout is successfully." });
+});
+
+export const refresh = catchAsync<{}, AuthResponse>(async (req, res) => {
+  const { refreshToken: oldRefreshToken } = req.cookies;
+  const { refreshToken, ...userData } =
+    await authService.refresh(oldRefreshToken);
+
+  res.cookie("refreshToken", refreshToken, {
+    maxAge: REFRESH_TOKEN_MAX_AGE,
+    httpOnly: true,
+  });
+
+  return res.status(200).json(userData);
+});

@@ -2,14 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
 import { MAIN_ROUTE, MAIN_LINK } from '@/pages/main'
-import { SideBarLayout } from '../layouts'
+import { SideBarLayout, AuthLayout } from '../layouts'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       ...AUTH_SECTION_ROUTE,
-      // component 'authLayout'
+      component: AuthLayout,
     },
     {
       path: MAIN_ROUTE.path,

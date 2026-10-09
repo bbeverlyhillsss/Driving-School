@@ -11,13 +11,13 @@
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <RouterLink
-          to="/register"
+          to="/auth/register"
           class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
         >
           Записатися на навчання
         </RouterLink>
         <RouterLink
-          to="/login"
+          to="/auth/login"
           class="rounded-lg border border-slate-300 px-6 py-3 font-semibold text-slate-800 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
         >
           Увійти
@@ -73,7 +73,7 @@
         Створіть акаунт і оберіть свою першу дату заняття.
       </p>
       <RouterLink
-        to="/register"
+        to="/auth/register"
         class="mt-6 inline-block rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
       >
         Зареєструватися
