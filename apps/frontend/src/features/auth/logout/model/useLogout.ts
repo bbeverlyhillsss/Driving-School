@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/entities/user/model'
 // replace to shared
-import { LOGIN_LINK } from '@/pages/auth/login/config/route'
+import { LOGIN_LINK } from '@/shared/config'
 import { logout } from '../api'
 
 export const useLogout = () => {

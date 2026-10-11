@@ -1,10 +1,5 @@
-import type { RouteRecordRaw, RouteLocationRaw } from 'vue-router'
-
-const LOGIN_ROUTE_NAME = 'login'
-
-export const LOGIN_LINK = {
-  name: LOGIN_ROUTE_NAME,
-} as const satisfies RouteLocationRaw
+import type { RouteRecordRaw } from 'vue-router'
+import { LOGIN_LINK } from '@/shared/config/'
 
 export const LOGIN_ROUTE = {
   path: 'login',

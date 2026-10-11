@@ -1,7 +1,7 @@
 import type { Router } from 'vue-router'
 import { useUserStore } from '@/entities/user/model'
 import { http } from '@/shared/api'
-import { LOGIN_LINK } from '@/pages/auth/login/config/route'
+import { LOGIN_LINK } from '@/shared/config'
 
 export const setupSession = (router: Router): void => {
   const userStore = useUserStore()
