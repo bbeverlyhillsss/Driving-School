@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { AuthResponse, SharedUser } from '@driving-school/shared'
 import { http } from '@/shared/api'
-import { refresh } from '../api'
+import { refresh } from '../api/refresh'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<SharedUser | null>(null)

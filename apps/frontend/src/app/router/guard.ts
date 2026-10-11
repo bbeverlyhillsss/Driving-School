@@ -1,5 +1,5 @@
 import type { Router } from 'vue-router'
-import { useUserStore } from '@/entities/user/model'
+import { useUserStore } from '@/entities/user'
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
 import { MAIN_LINK, LOGIN_LINK } from '@/shared/config'
 

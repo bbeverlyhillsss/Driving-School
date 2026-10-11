@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import { MAIN_LINK } from '@/shared/config'
-import { useUserStore } from '@/entities/user/model'
+import { useUserStore } from '@/entities/user/'
 import LogoutButton from '@/features/auth/logout/ui/LogoutButton.vue'
 
 const userStore = useUserStore()
