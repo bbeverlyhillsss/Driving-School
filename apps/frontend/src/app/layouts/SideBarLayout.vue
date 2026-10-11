@@ -7,8 +7,8 @@
       <nav class="flex flex-col gap-1 p-3">
         <RouterLink
           v-for="{ to, name } in LINKS"
-          :to
           :key="name"
+          :to
           class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
           active-class="bg-blue-600 text-white hover:bg-blue-600"
         >
@@ -28,6 +28,10 @@
         >
           User Profile
         </RouterLink>
+        <div v-if="userStore.user" class="flex items-center gap-4">
+          <span class="text-sm">{{ userStore.user.email }}</span>
+          <LogoutButton />
+        </div>
       </header>
 
       <main class="flex-1 p-6">
@@ -40,6 +44,10 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import { MAIN_LINK } from '@/shared/config'
+import { useUserStore } from '@/entities/user/model'
+import LogoutButton from '@/features/auth/logout/ui/LogoutButton.vue'
+
+const userStore = useUserStore()
 
 interface Link {
   to: RouteLocationRaw
