@@ -85,7 +85,7 @@ export const logout = async (refreshToken: string) => {
 
 export const refresh = async (
   refreshToken: string | undefined,
-): Promise<AuthServiceResult> => {
+): Promise<AuthResponse> => {
   if (!refreshToken) {
     throw ApiError.UnauthorizedError();
   }
@@ -102,19 +102,15 @@ export const refresh = async (
     throw ApiError.UnauthorizedError();
   }
 
-  await tokenService.removeToken(refreshToken);
-
   const sharedUser = toSharedUser(user);
-  const tokens = tokenService.generateTokens({
+  const accessToken = tokenService.generateAccessToken({
     id: sharedUser.id,
     email: sharedUser.email,
     role: sharedUser.role,
   });
-  await tokenService.saveToken(user.id, tokens.refreshToken);
 
   return {
-    accessToken: tokens.accessToken,
-    refreshToken: tokens.refreshToken,
+    accessToken: accessToken,
     user: sharedUser,
   };
 };
@@ -123,5 +119,5 @@ export default {
   register,
   login,
   logout,
-  refresh
+  refresh,
 };
