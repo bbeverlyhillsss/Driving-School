@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { loginSchema } from '@driving-school/shared'
 import type { LoginPayload } from '@driving-school/shared'
 import { login } from '../api/login'
-import { useUserStore } from '@/entities/user/model'
+import { useUserStore } from '@/entities/user'
 
 export const useLogin = (onSuccess: () => void) => {
   const form = ref<LoginPayload>({ email: '', password: '' })

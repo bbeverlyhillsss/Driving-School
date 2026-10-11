@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { useLogin } from '../model'
+import { useLogin } from '../index'
 import type { RouteLocationRaw } from 'vue-router'
 import { useRouter } from 'vue-router'
 
