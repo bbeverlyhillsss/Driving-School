@@ -1,14 +1,15 @@
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-
-import { router } from './router'
 import App from './App.vue'
-
+import { pinia, setupSession } from './providers'
+import { router } from './router'
+import { setupAuthGuard } from './router/guard'
 import '@/app/styles/main.css'
 
 const app = createApp(App)
 
-app.use(createPinia())
+app.use(pinia)
+setupSession(router)
+setupAuthGuard(router)
 app.use(router)
 
 export { app }
