@@ -14,6 +14,12 @@ export interface ApiErrorBody {
 export type HttpResponse<T> =
   { ok: true; status: number; data: T } | { ok: false; status: number; error: ApiErrorBody | null }
 
+export interface RequestOptions extends AxiosRequestConfig {
+  skipAuthRefresh?: boolean
+}
+
+type RefreshHandler = () => Promise<boolean>
+
 const httpClient = ({ baseURL, defaultHeaders }: HttpConfig) => {
   const axiosInstance = axios.create({
     baseURL,
@@ -22,8 +28,19 @@ const httpClient = ({ baseURL, defaultHeaders }: HttpConfig) => {
   })
 
   let bearerToken: string | null = null
+  let refreshHandler: RefreshHandler | null = null
+  let refreshPromise: Promise<boolean> | null = null
 
-  const request = async <T>(config: AxiosRequestConfig): Promise<HttpResponse<T>> => {
+  const refreshOnce = (): Promise<boolean> => {
+    if (!refreshHandler) return Promise.resolve(false)
+    refreshPromise ??= refreshHandler().finally(() => {
+      refreshPromise = null
+    })
+    return refreshPromise
+  }
+
+  const request = async <T>(options: RequestOptions, isRetry = false): Promise<HttpResponse<T>> => {
+    const { skipAuthRefresh, ...config } = options
     const headers = { ...config.headers } as Record<string, string>
 
     if (bearerToken !== null) {
@@ -35,17 +52,19 @@ const httpClient = ({ baseURL, defaultHeaders }: HttpConfig) => {
       return { ok: true, status, data }
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
-        return {
-          ok: false,
-          status: err.response.status,
-          error: (err.response.data as ApiErrorBody) ?? null,
+        const { status, data } = err.response
+
+        if (status === 401 && !isRetry && !skipAuthRefresh && (await refreshOnce())) {
+          return request<T>(options, true)
         }
+
+        return { ok: false, status, error: (data as ApiErrorBody) ?? null }
       }
       return { ok: false, status: 0, error: null }
     }
   }
 
-  const fetchFull = <T>(config: AxiosRequestConfig): Promise<HttpResponse<T>> => request<T>(config)
+  const fetchFull = <T>(options: RequestOptions): Promise<HttpResponse<T>> => request<T>(options)
 
   const setToken = (token: string): void => {
     bearerToken = token
@@ -55,7 +74,11 @@ const httpClient = ({ baseURL, defaultHeaders }: HttpConfig) => {
     bearerToken = null
   }
 
-  return { fetchFull, setToken, clearToken }
+  const setRefreshHandler = (handler: RefreshHandler): void => {
+    refreshHandler = handler
+  }
+
+  return { fetchFull, setToken, clearToken, setRefreshHandler }
 }
 
 const baseURL: string = import.meta.env.VITE_API_URL ?? '/'
