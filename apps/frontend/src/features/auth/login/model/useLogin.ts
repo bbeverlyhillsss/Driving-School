@@ -1,13 +1,15 @@
 import { ref } from 'vue'
 import { loginSchema } from '@driving-school/shared'
 import type { LoginPayload } from '@driving-school/shared'
-import { http } from '@/shared/api'
 import { login } from '../api'
+import { useUserStore } from '@/entities/user/model'
 
 export const useLogin = (onSuccess: () => void) => {
   const form = ref<LoginPayload>({ email: '', password: '' })
   const isLoading = ref(false)
   const errors = ref<string[]>([])
+
+  const userStore = useUserStore()
 
   const submit = async (): Promise<void> => {
     const parsed = loginSchema.safeParse(form.value)
@@ -27,7 +29,7 @@ export const useLogin = (onSuccess: () => void) => {
       return
     }
 
-    http.setToken(response.data.accessToken)
+    userStore.setSession(response.data)
     onSuccess()
   }
 
