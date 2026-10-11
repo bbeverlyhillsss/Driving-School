@@ -20,6 +20,9 @@ export const generateTokens = (payload: JwtPayload): Tokens => {
   return { accessToken, refreshToken };
 };
 
+export const generateAccessToken = (payload: JwtPayload): string =>
+  jwt.sign(payload, env.JWT_ACCESS_SECRET, { expiresIn: "15m" });
+
 export const validateAccessToken = (token: string): JwtPayload | null => {
   try {
     return jwt.verify(token, env.JWT_ACCESS_SECRET) as JwtPayload;
@@ -60,6 +63,7 @@ export const findToken = async (refreshToken: string) => {
 
 export default {
   generateTokens,
+  generateAccessToken,
   validateAccessToken,
   validateRefreshToken,
   saveToken,
