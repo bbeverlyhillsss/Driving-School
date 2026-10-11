@@ -1,9 +1,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/entities/user/model'
-// replace to shared
-import { LOGIN_LINK } from '@/pages/auth/login/config/route'
-import { logout } from '../api'
+import { useUserStore } from '@/entities/user/'
+import { LOGIN_LINK } from '@/shared/config'
+import { logout } from '../api/logout'
 
 export const useLogout = () => {
   const router = useRouter()

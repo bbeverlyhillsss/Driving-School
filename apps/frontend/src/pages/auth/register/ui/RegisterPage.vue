@@ -5,6 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import RegisterForm from '@/features/auth/register/ui/index'
+import { RegisterForm } from '@/features/auth/register/'
 import { MAIN_LINK } from '@/shared/config/'
 </script>

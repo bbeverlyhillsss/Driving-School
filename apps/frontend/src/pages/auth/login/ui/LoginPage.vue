@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import LoginForm from '@/features/auth/login/ui/LoginForm.vue'
+import { LoginForm } from '@/features/auth/login/'
 import { REGISTER_LINK } from '../../register/config/route'
 import { MAIN_LINK } from '@/shared/config'
 </script>

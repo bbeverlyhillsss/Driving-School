@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { loginSchema } from '@driving-school/shared'
 import type { LoginPayload } from '@driving-school/shared'
-import { login } from '../api'
+import { login } from '../api/login'
 import { useUserStore } from '@/entities/user/model'
 
 export const useLogin = (onSuccess: () => void) => {

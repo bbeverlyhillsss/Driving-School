@@ -1,3 +1,5 @@
-import RegisterForm from './ui/RegisterForm.vue'
+export { register } from './api/register'
 
-export default RegisterForm
+export { useRegister } from './model/useRegister'
+
+export { default as RegisterForm } from './ui/RegisterForm.vue'

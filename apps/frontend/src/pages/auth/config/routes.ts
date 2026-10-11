@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
-
 import { REGISTER_LINK, REGISTER_ROUTE } from '../register/config/route'
-import { LOGIN_LINK, LOGIN_ROUTE } from '../login/config/route'
+import { LOGIN_ROUTE } from '../login/config/route'
+import { LOGIN_LINK } from '@/shared/config'
 
 const AUTH_ROUTE_NAME = 'auth'
 

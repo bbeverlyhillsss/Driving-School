@@ -1,8 +1,7 @@
 import type { Router } from 'vue-router'
-import { useUserStore } from '@/entities/user/model'
+import { useUserStore } from '@/entities/user'
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
-import { LOGIN_LINK } from '@/pages/auth/login/config/route'
-import { MAIN_LINK } from '@/shared/config'
+import { MAIN_LINK, LOGIN_LINK } from '@/shared/config'
 
 export const setupAuthGuard = (router: Router): void => {
   router.beforeEach(async (to) => {
