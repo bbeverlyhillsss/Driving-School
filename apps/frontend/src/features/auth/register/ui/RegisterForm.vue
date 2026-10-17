@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import { useRouter } from 'vue-router'
-import { useRegister } from '../model'
+import { useRegister } from '../model/useRegister'
 
 const props = defineProps<{ to: RouteLocationRaw }>()
 const router = useRouter()

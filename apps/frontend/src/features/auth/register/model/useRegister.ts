@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { registerSchema } from '@driving-school/shared/src/schemas/auth.schema'
 import type { RegisterPayload } from '@driving-school/shared'
-import { useUserStore } from '@/entities/user/model'
+import { useUserStore } from '@/entities/user/model/user.store'
 import { register } from '../api/register'
 
 export const useRegister = (onSuccess: () => void) => {

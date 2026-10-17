@@ -3,7 +3,7 @@ import App from './App.vue'
 import { pinia, setupSession } from './providers'
 import { router } from './router'
 import { setupAuthGuard } from './router/guard'
-import '@/app/styles/main.css'
+import './styles/main.css'
 
 const app = createApp(App)
 
