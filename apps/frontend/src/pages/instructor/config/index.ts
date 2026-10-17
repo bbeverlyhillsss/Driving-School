@@ -1,0 +1,3 @@
+import { INSTRUCTOR_LINK, INSTRUCTOR_ROUTE } from './route'
+
+export { INSTRUCTOR_ROUTE, INSTRUCTOR_LINK }
