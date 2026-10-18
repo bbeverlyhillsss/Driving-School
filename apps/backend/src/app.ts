@@ -1,6 +1,7 @@
 import cookieParser from "cookie-parser";
 import express, { type Express } from "express";
 import authRouter from "./modules/auth/auth.route";
+import categoryRouter from "./modules/category/category.router";
 import errorMiddleware from "./middlewares/error.middleware";
 import cors, { CorsOptions } from "cors";
 
@@ -22,6 +23,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/categories", categoryRouter);
 
 app.use(errorMiddleware);
 
