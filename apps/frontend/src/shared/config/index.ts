@@ -1,3 +1,3 @@
-import { MAIN_LINK, LOGIN_LINK } from './route'
+import { ROOT_LINK, LOGIN_LINK } from './route'
 
-export { MAIN_LINK, LOGIN_LINK }
+export { ROOT_LINK, LOGIN_LINK }

@@ -23,7 +23,7 @@
       >
         <span class="text-sm text-gray-600">Hello, user</span>
         <RouterLink
-          :to="MAIN_LINK"
+          :to="ROOT_LINK"
           class="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
         >
           User Profile
@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
-import { MAIN_LINK } from '@/shared/config'
+import { ROOT_LINK } from '@/shared/config'
 import { useUserStore } from '@/entities/user/'
 import LogoutButton from '@/features/auth/logout/ui/LogoutButton.vue'
 
@@ -56,8 +56,8 @@ interface Link {
 
 const LINKS = [
   {
-    to: MAIN_LINK,
-    name: 'Main Page',
+    to: ROOT_LINK,
+    name: 'Role Page',
   },
 ] as const satisfies Array<Link>
 </script>

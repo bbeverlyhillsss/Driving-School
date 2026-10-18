@@ -1,7 +1,7 @@
 import type { Router } from 'vue-router'
 import { useUserStore } from '@/entities/user'
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
-import { LOGIN_LINK } from '@/shared/config'
+import { LOGIN_LINK, ROOT_LINK } from '@/shared/config'
 import { ROLE_HOME_LINK } from './role-home'
 
 export const setupAuthGuard = (router: Router): void => {
@@ -18,7 +18,7 @@ export const setupAuthGuard = (router: Router): void => {
 
     const homeLink = ROLE_HOME_LINK[role]
 
-    if (isAuthPage) {
+    if (isAuthPage || to.name === ROOT_LINK.name) {
       return homeLink
     }
 
