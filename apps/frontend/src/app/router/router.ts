@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
-import { MAIN_ROUTE } from '@/pages/main'
 import { SideBarLayout, AuthLayout } from '../layouts'
 import { ROOT_LINK } from '@/shared/config'
+import { STUDENT_ROUTE } from '@/pages/student'
 import { ADMIN_ROUTE } from '@/pages/admin'
 import { INSTRUCTOR_ROUTE } from '@/pages/instructor'
 
@@ -15,19 +15,18 @@ const router = createRouter({
       component: AuthLayout,
     },
     {
-      path: MAIN_ROUTE.path,
-      redirect: ROOT_LINK,
+      path: '/',
+      component: SideBarLayout,
       children: [
         {
           path: '',
-          name: MAIN_ROUTE.name,
-          component: MAIN_ROUTE.component,
-          meta: MAIN_ROUTE.meta,
+          name: ROOT_LINK.name,
+          component: { render: () => null },
         },
+        STUDENT_ROUTE,
         ADMIN_ROUTE,
         INSTRUCTOR_ROUTE,
       ],
-      component: SideBarLayout,
     },
   ],
 })
