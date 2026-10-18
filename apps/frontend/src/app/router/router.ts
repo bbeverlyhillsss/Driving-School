@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
 import { MAIN_ROUTE } from '@/pages/main'
 import { SideBarLayout, AuthLayout } from '../layouts'
-import { MAIN_LINK } from '@/shared/config'
+import { ROOT_LINK } from '@/shared/config'
 import { ADMIN_ROUTE } from '@/pages/admin'
 import { INSTRUCTOR_ROUTE } from '@/pages/instructor'
 
@@ -16,7 +16,7 @@ const router = createRouter({
     },
     {
       path: MAIN_ROUTE.path,
-      redirect: MAIN_LINK,
+      redirect: ROOT_LINK,
       children: [
         {
           path: '',

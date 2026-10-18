@@ -1,10 +1,10 @@
 <template>
   <div class="flex min-h-screen items-center justify-center p-4">
-    <RegisterForm :to="MAIN_LINK" />
+    <RegisterForm :to="ROOT_LINK" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { RegisterForm } from '@/features/auth/register/'
-import { MAIN_LINK } from '@/shared/config/'
+import { ROOT_LINK } from '@/shared/config/'
 </script>
