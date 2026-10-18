@@ -78,7 +78,7 @@ model AuthToken {
 
 model Category {
   id            Int      @id @default(autoincrement())
-  name          String
+  name          String   @unique
   minAge        Int?     @map("min_age")
   theoryHours   Int?     @map("theory_hours")
   practiceHours Int?     @map("practice_hours")
