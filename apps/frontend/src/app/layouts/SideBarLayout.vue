@@ -44,6 +44,7 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import { ROOT_LINK } from '@/shared/config'
+import { CATEGORIES_LINK } from '@/pages/caregories'
 import { useUserStore } from '@/entities/user/'
 import LogoutButton from '@/features/auth/logout/ui/LogoutButton.vue'
 
@@ -58,6 +59,10 @@ const LINKS = [
   {
     to: ROOT_LINK,
     name: 'Role Page',
+  },
+  {
+    to: CATEGORIES_LINK,
+    name: 'Categories',
   },
 ] as const satisfies Array<Link>
 </script>

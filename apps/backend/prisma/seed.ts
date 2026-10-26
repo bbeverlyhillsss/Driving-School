@@ -30,10 +30,11 @@ const seedCategories = async () => {
   const ids: Record<string, number> = {};
 
   for (const data of categoriesData) {
-    const existing = await prisma.category.findFirst({
+    const category = await prisma.category.upsert({
       where: { name: data.name },
+      update: {},
+      create: data,
     });
-    const category = existing ?? (await prisma.category.create({ data }));
     ids[data.name] = category.id;
   }
 
