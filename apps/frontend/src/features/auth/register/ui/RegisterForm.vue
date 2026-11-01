@@ -1,34 +1,54 @@
 <template>
-  <form class="flex w-full max-w-sm flex-col gap-4" @submit.prevent="submit">
-    <h1 class="text-2xl font-bold">Реєстрація</h1>
+  <BaseCard class="w-full max-w-xl">
+    <form class="flex flex-col gap-6" @submit.prevent="submit">
+      <BaseCardHeader>
+        <BaseCardTitle as="h1">Register Form</BaseCardTitle>
+        <BaseCardDescription>Create a student account.</BaseCardDescription>
+      </BaseCardHeader>
 
-    <input v-model="form.fullName" type="text" placeholder="ПІБ" class="rounded border p-2" />
-    <input v-model="form.email" type="email" placeholder="Email" class="rounded border p-2" />
-    <input
-      v-model="form.password"
-      type="password"
-      placeholder="Пароль"
-      class="rounded border p-2"
-    />
+      <BaseCardContent>
+        <BaseFormField v-slot="{ id }" label="ПІБ">
+          <BaseInput :id v-model="form.fullName" autocomplete="name" />
+        </BaseFormField>
 
-    <ul v-if="errors.length" class="text-sm text-red-500">
-      <li v-for="error in errors" :key="error">{{ error }}</li>
-    </ul>
+        <BaseFormField v-slot="{ id }" label="Email">
+          <BaseInput :id v-model="form.email" type="email" autocomplete="email" />
+        </BaseFormField>
 
-    <button
-      type="submit"
-      :disabled="isLoading"
-      class="rounded bg-blue-500 p-2 text-white disabled:opacity-50"
-    >
-      {{ isLoading ? 'Зачекайте...' : 'Зареєструватись' }}
-    </button>
-  </form>
+        <BaseFormField v-slot="{ id }" label="Password">
+          <BaseInput :id v-model="form.password" type="password" autocomplete="new-password" />
+        </BaseFormField>
+
+        <ul v-if="errors.length" role="alert" class="flex flex-col gap-1 text-sm text-red-400">
+          <li v-for="error in errors" :key="error">{{ error }}</li>
+        </ul>
+      </BaseCardContent>
+
+      <BaseCardFooter direction="column">
+        <BaseButton type="submit" variant="inverse" :loading="isLoading" class="w-full">
+          Register
+        </BaseButton>
+        <slot name="footer" />
+      </BaseCardFooter>
+    </form>
+  </BaseCard>
 </template>
 
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { useRegister } from '../model/useRegister'
+import { BaseButton } from '@/shared/ui/button'
+import { BaseFormField } from '@/shared/ui/form-field'
+import { BaseInput } from '@/shared/ui/input'
+import {
+  BaseCard,
+  BaseCardContent,
+  BaseCardFooter,
+  BaseCardHeader,
+  BaseCardTitle,
+  BaseCardDescription,
+} from '@/shared/ui/card'
 
 const props = defineProps<{ to: RouteLocationRaw }>()
 const router = useRouter()
