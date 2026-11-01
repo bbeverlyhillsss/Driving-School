@@ -6,7 +6,7 @@ import { ROOT_LINK } from '@/shared/config'
 import { STUDENT_ROUTE } from '@/pages/student'
 import { ADMIN_ROUTE } from '@/pages/admin'
 import { INSTRUCTOR_ROUTE } from '@/pages/instructor'
-import { CATEGORIES_ROUTE } from '@/pages/caregories'
+import { CATEGORIES_ROUTE } from '@/pages/categories'
 
 const router = createRouter({
   history: createWebHistory(),

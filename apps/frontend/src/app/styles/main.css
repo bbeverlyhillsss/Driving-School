@@ -1,2 +1,5 @@
-@import "tailwindcss"
+@import 'tailwindcss';
 
+html {
+  font-family: 'IBM Plex Sans Variable', ui-sans-serif, system-ui, sans-serif;
+}
