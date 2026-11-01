@@ -1,35 +1,37 @@
 <template>
-  <form
-    class="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-5"
-    @submit.prevent="emit('submit', { ...form })"
-  >
+  <form class="flex flex-col gap-6" @submit.prevent="emit('submit', { ...form })">
     <div class="grid gap-4 sm:grid-cols-2">
-      <BaseFormField label="Назва" :error="errors.name" #default="{ id, invalid }">
+      <BaseFormField
+        v-slot="{ id, invalid }"
+        label="Name"
+        :error="errors.name"
+        class="sm:col-span-2"
+      >
         <BaseInput :id="id" v-model="form.name" :invalid="invalid" />
       </BaseFormField>
 
-      <BaseFormField label="Мін. вік" :error="errors.minAge" #default="{ id, invalid }">
+      <BaseFormField v-slot="{ id, invalid }" label="Min. age" :error="errors.minAge">
         <BaseInput :id="id" v-model="form.minAge" inputmode="numeric" :invalid="invalid" />
       </BaseFormField>
 
-      <BaseFormField label="Теорія, год" :error="errors.theoryHours" #default="{ id, invalid }">
+      <BaseFormField v-slot="{ id, invalid }" label="Price" :error="errors.price">
+        <BaseInput :id="id" v-model="form.price" inputmode="decimal" :invalid="invalid" />
+      </BaseFormField>
+
+      <BaseFormField v-slot="{ id, invalid }" label="Theory hours" :error="errors.theoryHours">
         <BaseInput :id="id" v-model="form.theoryHours" inputmode="numeric" :invalid="invalid" />
       </BaseFormField>
 
-      <BaseFormField label="Практика, год" :error="errors.practiceHours" #default="{ id, invalid }">
+      <BaseFormField v-slot="{ id, invalid }" label="Practice hours" :error="errors.practiceHours">
         <BaseInput :id="id" v-model="form.practiceHours" inputmode="numeric" :invalid="invalid" />
-      </BaseFormField>
-
-      <BaseFormField label="Ціна, грн" :error="errors.price" #default="{ id, invalid }">
-        <BaseInput :id="id" v-model="form.price" inputmode="decimal" :invalid="invalid" />
       </BaseFormField>
     </div>
 
-    <p v-if="serverError" class="text-sm text-red-600">{{ serverError }}</p>
+    <p v-if="serverError" role="alert" class="text-sm text-red-400">{{ serverError }}</p>
 
-    <div class="flex gap-3">
-      <BaseButton type="submit" :loading="loading">{{ submitLabel }}</BaseButton>
-      <BaseButton variant="secondary" @click="emit('cancel')">Скасувати</BaseButton>
+    <div class="flex justify-end gap-3">
+      <BaseButton variant="secondary" @click="emit('cancel')">Discard</BaseButton>
+      <BaseButton type="submit" variant="inverse" :loading="loading">{{ submitLabel }}</BaseButton>
     </div>
   </form>
 </template>
@@ -54,7 +56,7 @@ const props = withDefaults(
     errors: () => ({}),
     serverError: null,
     loading: false,
-    submitLabel: 'Зберегти',
+    submitLabel: 'Save',
   },
 )
 

@@ -1,13 +1,14 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center p-4">
-    <LoginForm :to="ROOT_LINK">
-      <template #footer>
-        <router-link :to="REGISTER_LINK" class="text-sm text-blue-500">
-          Немає акаунта? Зареєструватись
-        </router-link>
-      </template>
-    </LoginForm>
-  </div>
+  <LoginForm :to="ROOT_LINK">
+    <template #footer>
+      <RouterLink
+        :to="REGISTER_LINK"
+        class="text-center text-sm text-zinc-400 underline-offset-4 transition-colors hover:text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-300"
+      >
+        Don't have an account? Register
+      </RouterLink>
+    </template>
+  </LoginForm>
 </template>
 
 <script setup lang="ts">

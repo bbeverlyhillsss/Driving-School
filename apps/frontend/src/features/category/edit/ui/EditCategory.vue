@@ -1,18 +1,25 @@
 <template>
-  <CategoryForm
-    :initial="toCategoryFormValues(category)"
-    :errors
-    :server-error="serverError"
-    :loading="isLoading"
-    submit-label="Зберегти"
-    @submit="submit"
-    @cancel="emit('close')"
-  />
+  <BaseModal
+    title="Edit category"
+    :description="`Category ${category.name}`"
+    @close="emit('close')"
+  >
+    <CategoryForm
+      :initial="toCategoryFormValues(category)"
+      :errors
+      :server-error="serverError"
+      :loading="isLoading"
+      submit-label="Save"
+      @submit="submit"
+      @cancel="emit('close')"
+    />
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
 import type { SharedCategory } from '@driving-school/shared'
 import { CategoryForm, toCategoryFormValues } from '@/entities/category'
+import { BaseModal } from '@/shared/ui/modal'
 import { useEditCategory } from '../model/use-edit-category'
 
 const props = defineProps<{ category: SharedCategory }>()

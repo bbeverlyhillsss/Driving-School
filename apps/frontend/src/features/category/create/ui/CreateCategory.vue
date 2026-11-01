@@ -1,32 +1,27 @@
 <template>
-  <div>
-    <BaseButton v-if="!isOpen" @click="isOpen = true">Додати категорію</BaseButton>
+  <BaseModal title="New category" description="Add a new driving category." @close="close">
     <CategoryForm
-      v-else
       :errors
       :server-error="serverError"
       :loading="isLoading"
-      submit-label="Створити"
+      submit-label="Create"
       @submit="submit"
       @cancel="close"
     />
-  </div>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { BaseButton } from '@/shared/ui/button'
 import { CategoryForm } from '@/entities/category'
+import { BaseModal } from '@/shared/ui/modal'
 import { useCreateCategory } from '../model/use-create-category'
 
-const isOpen = ref(false)
+const emit = defineEmits<{ close: [] }>()
 
-const { errors, serverError, isLoading, submit, reset } = useCreateCategory(() => {
-  isOpen.value = false
-})
+const { errors, serverError, isLoading, submit, reset } = useCreateCategory(() => emit('close'))
 
 const close = (): void => {
   reset()
-  isOpen.value = false
+  emit('close')
 }
 </script>
