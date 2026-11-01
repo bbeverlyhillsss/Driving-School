@@ -1,40 +1,55 @@
 <template>
-  <div class="flex min-h-screen bg-gray-50">
-    <aside class="w-56 shrink-0 bg-slate-900 text-slate-100 flex flex-col">
-      <div class="px-5 py-5 text-lg font-bold text-white border-b border-slate-700">
-        Driving School
-      </div>
-      <nav class="flex flex-col gap-1 p-3">
-        <RouterLink
-          v-for="{ to, name } in LINKS"
-          :key="name"
-          :to
-          class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
-          active-class="bg-blue-600 text-white hover:bg-blue-600"
-        >
-          {{ name }}
-        </RouterLink>
-      </nav>
-    </aside>
+  <div class="flex min-h-screen flex-col bg-zinc-900 text-zinc-300">
+    <header class="flex h-16 shrink-0 items-center pr-6">
+      <span class="w-64 shrink-0 px-6 text-lg font-semibold text-white">Driving School</span>
 
-    <div class="flex-1 flex flex-col">
-      <header
-        class="flex items-center justify-end gap-4 px-6 py-4 bg-white border-b border-gray-200 shadow-sm"
-      >
-        <span class="text-sm text-gray-600">Hello, user</span>
-        <RouterLink
-          :to="ROOT_LINK"
-          class="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
-        >
-          User Profile
-        </RouterLink>
-        <div v-if="userStore.user" class="flex items-center gap-4">
-          <span class="text-sm">{{ userStore.user.email }}</span>
+      <template v-if="userStore.user">
+        <div class="flex items-center gap-3 pl-8">
+          <span class="rounded-md bg-zinc-100 p-0.5">
+            <span
+              class="block rounded-[5px] border border-zinc-900 px-2.5 py-0.5 text-sm font-medium text-zinc-900"
+            >
+              {{ roleLabel }}
+            </span>
+          </span>
+          <span class="text-sm text-zinc-300">{{ userStore.user.email }}</span>
+        </div>
+
+        <div class="ml-auto flex items-center gap-4">
+          <RouterLink
+            :to="homeLink"
+            class="text-sm font-medium text-white transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-300"
+          >
+            Profile
+          </RouterLink>
           <LogoutButton />
         </div>
-      </header>
+      </template>
+    </header>
 
-      <main class="flex-1 p-6">
+    <div class="flex min-h-0 flex-1">
+      <aside class="w-64 shrink-0">
+        <nav class="flex flex-col gap-1.5 px-4 py-3">
+          <RouterLink
+            v-for="{ to, name } in links"
+            v-slot="{ href, navigate, isActive }"
+            :key="name"
+            :to
+            custom
+          >
+            <a
+              :href
+              :aria-current="isActive ? 'page' : undefined"
+              :class="[linkBase, isActive ? linkActive : linkIdle]"
+              @click="navigate"
+            >
+              {{ name }}
+            </a>
+          </RouterLink>
+        </nav>
+      </aside>
+
+      <main class="min-w-0 flex-1 overflow-auto rounded-tl-2xl bg-zinc-100 p-8 text-zinc-900">
         <RouterView />
       </main>
     </div>
@@ -42,27 +57,41 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
+import { Role } from '@driving-school/shared'
+import { useUserStore } from '@/entities/user'
+import { CATEGORIES_LINK } from '@/pages/categories'
 import { ROOT_LINK } from '@/shared/config'
-import { CATEGORIES_LINK } from '@/pages/caregories'
-import { useUserStore } from '@/entities/user/'
 import LogoutButton from '@/features/auth/logout/ui/LogoutButton.vue'
-
-const userStore = useUserStore()
+import { ROLE_HOME_LINK } from '../router/role-home'
 
 interface Link {
   to: RouteLocationRaw
   name: string
 }
 
-const LINKS = [
-  {
-    to: ROOT_LINK,
-    name: 'Role Page',
-  },
-  {
-    to: CATEGORIES_LINK,
-    name: 'Categories',
-  },
-] as const satisfies Array<Link>
+const userStore = useUserStore()
+
+const ROLE_LABEL: Record<Role, string> = {
+  [Role.ADMIN]: 'Admin',
+  [Role.INSTRUCTOR]: 'Instructor',
+  [Role.STUDENT]: 'Student',
+}
+
+const roleLabel = computed(() => (userStore.role ? ROLE_LABEL[userStore.role] : ''))
+
+const homeLink = computed<RouteLocationRaw>(() =>
+  userStore.role ? ROLE_HOME_LINK[userStore.role] : ROOT_LINK,
+)
+
+const links = computed<Link[]>(() => [
+  { to: homeLink.value, name: 'My Workspace' },
+  { to: CATEGORIES_LINK, name: 'Categories' },
+])
+
+const linkBase =
+  'flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-300'
+const linkIdle = 'text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-100'
+const linkActive = 'bg-zinc-800 text-white'
 </script>
