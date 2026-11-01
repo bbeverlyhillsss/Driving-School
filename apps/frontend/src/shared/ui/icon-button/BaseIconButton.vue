@@ -17,7 +17,8 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { computed } from 'vue'
-import { cn } from '@/shared/lib'
+import { cn, useSurface } from '@/shared/lib'
+import type { Surface } from '@/shared/lib'
 
 type Tone = 'neutral' | 'danger'
 
@@ -37,13 +38,21 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 })
 
-const base =
-  'inline-flex size-9 cursor-pointer items-center justify-center rounded-lg text-zinc-500 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50'
+const surface: Surface = useSurface()
 
-const tones: Record<Tone, string> = {
-  neutral: 'hover:bg-zinc-200 hover:text-zinc-900 focus-visible:outline-zinc-900',
-  danger: 'hover:bg-red-100 hover:text-red-700 focus-visible:outline-red-700',
+const base =
+  'inline-flex size-9 cursor-pointer items-center justify-center rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50'
+
+const tones: Record<Surface, Record<Tone, string>> = {
+  light: {
+    neutral: 'text-zinc-500 hover:bg-zinc-200 hover:text-zinc-900 focus-visible:outline-zinc-900',
+    danger: 'text-zinc-500 hover:bg-red-100 hover:text-red-700 focus-visible:outline-red-700',
+  },
+  dark: {
+    neutral: 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 focus-visible:outline-zinc-300',
+    danger: 'text-zinc-400 hover:bg-red-950 hover:text-red-400 focus-visible:outline-red-400',
+  },
 }
 
-const classes = computed(() => cn(base, tones[props.tone], props.class))
+const classes = computed(() => cn(base, tones[surface][props.tone], props.class))
 </script>
