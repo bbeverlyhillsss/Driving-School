@@ -1,31 +1,51 @@
 <template>
-  <BaseButton variant="danger" size="sm" :loading="isLoading" @click="onDelete">
-    Видалити
-  </BaseButton>
+  <BaseIconButton label="Delete" tone="danger" @click="isConfirming = true">
+    <Trash2 :size="16" />
+  </BaseIconButton>
+
+  <BaseConfirmDialog
+    v-if="isConfirming"
+    title="Delete category"
+    :description="`Delete category ${category.name}? This action cannot be undone.`"
+    confirm-label="Delete"
+    :loading="isLoading"
+    :error
+    @confirm="onConfirm"
+    @cancel="close"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Trash2 } from 'lucide-vue-next'
 import type { SharedCategory } from '@driving-school/shared'
-import { BaseButton } from '@/shared/ui/button'
+import { BaseIconButton } from '@/shared/ui/icon-button'
+import { BaseConfirmDialog } from '@/shared/ui/modal'
 import { useCategoryStore } from '@/entities/category'
 
 const props = defineProps<{ category: SharedCategory }>()
-const emit = defineEmits<{ error: [message: string | null] }>()
 
 const categoryStore = useCategoryStore()
+const isConfirming = ref(false)
 const isLoading = ref(false)
+const error = ref<string | null>(null)
 
-const onDelete = async (): Promise<void> => {
-  if (!window.confirm(`Видалити категорію "${props.category.name}"?`)) return
+const close = (): void => {
+  isConfirming.value = false
+  error.value = null
+}
 
-  emit('error', null)
+const onConfirm = async (): Promise<void> => {
+  error.value = null
   isLoading.value = true
   const response = await categoryStore.remove(props.category.id)
   isLoading.value = false
 
   if (!response.ok) {
-    emit('error', response.error?.message ?? 'Server is unavailable')
+    error.value = response.error?.message ?? 'Server is unavailable'
+    return
   }
+
+  close()
 }
 </script>
