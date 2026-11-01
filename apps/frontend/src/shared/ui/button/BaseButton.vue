@@ -7,12 +7,13 @@
     <slot />
   </button>
 </template>
+
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { cn } from '@/shared/lib'
 
-type Variant = 'primary' | 'secondary' | 'success' | 'danger'
+type Variant = 'primary' | 'secondary' | 'inverse'
 type Size = 'sm' | 'md' | 'lg'
 
 interface Props {
@@ -33,13 +34,12 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const base =
-  'inline-flex cursor-pointer items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:pointer-events-none disabled:opacity-50'
+  'inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-blue-600 text-white hover:bg-blue-700',
-  secondary: 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-  success: 'bg-green-600 text-white hover:bg-green-700',
-  danger: 'bg-red-600 text-white hover:bg-red-700',
+  primary: 'bg-zinc-900 text-zinc-50 hover:bg-zinc-800 focus-visible:outline-zinc-900',
+  secondary: 'bg-zinc-700 text-zinc-50 hover:bg-zinc-600 focus-visible:outline-zinc-700',
+  inverse: 'bg-zinc-100 text-zinc-900 hover:bg-white focus-visible:outline-zinc-100',
 }
 
 const sizes: Record<Size, string> = {

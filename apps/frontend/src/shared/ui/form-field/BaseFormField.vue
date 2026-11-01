@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-1.5">
-    <label :for="id" class="text-sm font-medium text-gray-700">{{ label }}</label>
+    <label :for="id" class="text-sm font-medium text-zinc-800">{{ label }}</label>
     <slot :id="id" :invalid="!!error" />
     <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
   </div>
