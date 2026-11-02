@@ -61,11 +61,13 @@ import { computed } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { Role } from '@driving-school/shared'
 import { useUserStore } from '@/entities/user'
+import LogoutButton from '@/features/auth/logout/ui/LogoutButton.vue'
+
 import { CATEGORIES_LINK } from '@/pages/categories'
 import { ROOT_LINK } from '@/shared/config'
-import LogoutButton from '@/features/auth/logout/ui/LogoutButton.vue'
 import { ROLE_HOME_LINK } from '../router/role-home'
 import { CARS_LINK } from '@/pages/cars'
+import { INSTRUCTORS_LINK } from '@/pages/instructors'
 
 interface Link {
   to: RouteLocationRaw
@@ -90,6 +92,7 @@ const links = computed<Link[]>(() => [
   { to: homeLink.value, name: 'My Workspace' },
   { to: CATEGORIES_LINK, name: 'Categories' },
   { to: CARS_LINK, name: 'Cars' },
+  { to: INSTRUCTORS_LINK, name: 'Instructors' },
 ])
 
 const linkBase =
