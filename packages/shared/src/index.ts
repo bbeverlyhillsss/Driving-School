@@ -10,3 +10,6 @@ export * from './schemas/category.schema'
 
 export * from "./types/car";
 export * from './schemas/car.schema'
+
+export * from "./types/instructor";
+export * from './schemas/instructor.schema'
