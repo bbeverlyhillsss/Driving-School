@@ -1,0 +1,1 @@
+export { default as DeleteInstructor } from './ui/DeleteInstructor.vue'

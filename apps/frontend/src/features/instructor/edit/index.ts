@@ -1,0 +1,1 @@
+export { default as EditInstructor } from './ui/EditInstructor.vue'
