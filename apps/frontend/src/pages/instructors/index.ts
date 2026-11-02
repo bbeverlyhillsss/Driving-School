@@ -1,0 +1,1 @@
+export { INSTRUCTORS_LINK, INSTRUCTORS_ROUTE } from './config/route'
