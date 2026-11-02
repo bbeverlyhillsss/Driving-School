@@ -1,0 +1,1 @@
+export { default as CreateInstructor } from './ui/CreateInstructor.vue'

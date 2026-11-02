@@ -6,6 +6,7 @@ import cors, { CorsOptions } from "cors";
 import authRouter from "./modules/auth/auth.route";
 import categoryRouter from "./modules/category/category.router";
 import carRouter from "./modules/car/car.router.js";
+import instructorRouter from "./modules/instructor/instructor.router.js";
 
 
 import errorMiddleware from "./middlewares/error.middleware";
@@ -32,6 +33,7 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/cars", carRouter);
+app.use("/api/instructors", instructorRouter);
 
 app.use(errorMiddleware);
 
