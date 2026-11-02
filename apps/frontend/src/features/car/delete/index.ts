@@ -1,0 +1,1 @@
+export { default as DeleteCar } from './ui/DeleteCar.vue'
