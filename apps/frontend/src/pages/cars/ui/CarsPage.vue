@@ -1,0 +1,77 @@
+<template>
+  <div class="flex flex-col gap-6">
+    <h1 class="text-2xl font-bold text-zinc-900">Cars</h1>
+
+    <CreateCar v-if="isCreating" @close="isCreating = false" />
+    <EditCar v-if="editing" :key="editing.id" :car="editing" @close="editing = null" />
+
+    <div class="flex items-center gap-2">
+      <BaseSearchInput
+        v-model="search"
+        placeholder="Search by brand, model or plate"
+        class="w-full max-w-sm"
+      />
+      <BaseIconButton label="Filter" class="size-10 border border-zinc-300 bg-white">
+        <ListFilter :size="16" />
+      </BaseIconButton>
+    </div>
+
+    <p v-if="carStore.isLoading" class="text-zinc-600">Loading...</p>
+    <p v-else-if="carStore.loadError" class="text-red-600">{{ carStore.loadError }}</p>
+    <CarTable v-else :items="filteredItems" :total="carStore.items.length">
+      <template v-if="isAdmin" #header-actions>
+        <BaseButton size="sm" variant="inverse" @click="isCreating = true">
+          <Plus :size="16" />
+          Create car
+        </BaseButton>
+      </template>
+
+      <template v-if="isAdmin" #actions="{ car }">
+        <div class="flex justify-end gap-1">
+          <BaseIconButton label="Edit" @click="editing = car">
+            <Pencil :size="16" />
+          </BaseIconButton>
+          <DeleteCar :car />
+        </div>
+      </template>
+    </CarTable>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import { ListFilter, Pencil, Plus } from 'lucide-vue-next'
+import { Role } from '@driving-school/shared'
+import type { SharedCar } from '@driving-school/shared'
+import { useUserStore } from '@/entities/user'
+import { CarTable, useCarStore } from '@/entities/car'
+import { useCategoryStore } from '@/entities/category'
+import { CreateCar } from '@/features/car/create'
+import { EditCar } from '@/features/car/edit'
+import { DeleteCar } from '@/features/car/delete'
+import { BaseButton } from '@/shared/ui/button'
+import { BaseIconButton } from '@/shared/ui/icon-button'
+import { BaseSearchInput } from '@/shared/ui/search-input'
+
+const userStore = useUserStore()
+const carStore = useCarStore()
+const categoryStore = useCategoryStore()
+
+const isAdmin = computed(() => userStore.role === Role.ADMIN)
+const isCreating = ref(false)
+const editing = ref<SharedCar | null>(null)
+const search = ref('')
+
+const filteredItems = computed(() => {
+  const query = search.value.trim().toLowerCase()
+  if (!query) return carStore.items
+  return carStore.items.filter((car) =>
+    [car.brand, car.model, car.plateNumber].some((field) => field.toLowerCase().includes(query)),
+  )
+})
+
+onMounted(() => {
+  void carStore.load()
+  void categoryStore.load()
+})
+</script>

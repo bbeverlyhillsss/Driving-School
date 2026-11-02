@@ -1,0 +1,1 @@
+export { default as EditCar } from './ui/EditCar.vue'

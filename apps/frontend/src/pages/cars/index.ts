@@ -1,0 +1,1 @@
+export { CARS_LINK, CARS_ROUTE } from './config/route'

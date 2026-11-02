@@ -1,12 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { SideBarLayout, AuthLayout } from '../layouts'
 
 import { AUTH_SECTION_ROUTE } from '@/pages/auth/config/routes'
-import { SideBarLayout, AuthLayout } from '../layouts'
 import { ROOT_LINK } from '@/shared/config'
+
 import { STUDENT_ROUTE } from '@/pages/student'
 import { ADMIN_ROUTE } from '@/pages/admin'
 import { INSTRUCTOR_ROUTE } from '@/pages/instructor'
+
 import { CATEGORIES_ROUTE } from '@/pages/categories'
+import { CARS_ROUTE } from '@/pages/cars'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -28,6 +31,7 @@ const router = createRouter({
         ADMIN_ROUTE,
         INSTRUCTOR_ROUTE,
         CATEGORIES_ROUTE,
+        CARS_ROUTE,
       ],
     },
   ],

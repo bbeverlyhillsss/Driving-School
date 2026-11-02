@@ -65,6 +65,7 @@ import { CATEGORIES_LINK } from '@/pages/categories'
 import { ROOT_LINK } from '@/shared/config'
 import LogoutButton from '@/features/auth/logout/ui/LogoutButton.vue'
 import { ROLE_HOME_LINK } from '../router/role-home'
+import { CARS_LINK } from '@/pages/cars'
 
 interface Link {
   to: RouteLocationRaw
@@ -88,6 +89,7 @@ const homeLink = computed<RouteLocationRaw>(() =>
 const links = computed<Link[]>(() => [
   { to: homeLink.value, name: 'My Workspace' },
   { to: CATEGORIES_LINK, name: 'Categories' },
+  { to: CARS_LINK, name: 'Cars' },
 ])
 
 const linkBase =

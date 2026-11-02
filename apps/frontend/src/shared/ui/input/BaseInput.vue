@@ -35,7 +35,7 @@ const styles: Record<Surface, Record<'field' | 'normal' | 'invalid', string>> = 
   },
   dark: {
     field:
-      'bg-zinc-800 text-zinc-50 placeholder:text-zinc-500 disabled:bg-zinc-800/50 disabled:text-zinc-500',
+      'bg-zinc-800 text-zinc-50 [color-scheme:dark] placeholder:text-zinc-500 disabled:bg-zinc-800/50 disabled:text-zinc-500',
     normal: 'border-zinc-700 focus:border-zinc-300 focus:ring-zinc-300/20',
     invalid: 'border-red-400 focus:border-red-400 focus:ring-red-400/25',
   },
