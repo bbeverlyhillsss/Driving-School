@@ -7,3 +7,6 @@ export * from './schemas/auth.schema'
 
 export * from "./types/category";
 export * from './schemas/category.schema'
+
+export * from "./types/car";
+export * from './schemas/car.schema'

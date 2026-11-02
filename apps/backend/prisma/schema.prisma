@@ -134,7 +134,7 @@ model Car {
   model          String
   plateNumber    String    @unique @map("plate_number")
   year           Int?
-  inspectionDate DateTime? @map("inspection_date")
+  inspectionDate DateTime? @db.Date @map("inspection_date")
 
   category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   lessons  Lesson[]
