@@ -146,9 +146,9 @@ model Group {
   id           Int       @id @default(autoincrement())
   categoryId   Int       @map("category_id")
   instructorId Int       @map("instructor_id")
-  name         String
-  startDate    DateTime? @map("start_date")
-  endDate      DateTime? @map("end_date")
+  name         String     @unique
+  startDate    DateTime   @db.Date @map("start_date")
+  endDate      DateTime   @db.Date @map("end_date")
 
   category   Category   @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   instructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Restrict)
