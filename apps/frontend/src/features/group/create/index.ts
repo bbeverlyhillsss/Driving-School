@@ -1,0 +1,1 @@
+export { default as CreateGroup } from './ui/CreateGroup.vue'

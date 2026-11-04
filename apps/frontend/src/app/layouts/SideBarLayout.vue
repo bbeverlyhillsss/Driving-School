@@ -68,6 +68,7 @@ import { ROOT_LINK } from '@/shared/config'
 import { ROLE_HOME_LINK } from '../router/role-home'
 import { CARS_LINK } from '@/pages/cars'
 import { INSTRUCTORS_LINK } from '@/pages/instructors'
+import { GROUPS_LINK } from '@/pages/groups'
 
 interface Link {
   to: RouteLocationRaw
@@ -93,6 +94,7 @@ const links = computed<Link[]>(() => [
   { to: CATEGORIES_LINK, name: 'Categories' },
   { to: CARS_LINK, name: 'Cars' },
   { to: INSTRUCTORS_LINK, name: 'Instructors' },
+  { to: GROUPS_LINK, name: 'Groups' },
 ])
 
 const linkBase =
