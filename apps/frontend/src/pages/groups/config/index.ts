@@ -1,0 +1,1 @@
+export { GROUPS_LINK, GROUPS_ROUTE } from './route'
