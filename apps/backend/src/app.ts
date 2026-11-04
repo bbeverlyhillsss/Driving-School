@@ -7,6 +7,7 @@ import authRouter from "./modules/auth/auth.route";
 import categoryRouter from "./modules/category/category.router";
 import carRouter from "./modules/car/car.router.js";
 import instructorRouter from "./modules/instructor/instructor.router.js";
+import groupRouter from "./modules/group/group.router.js"
 
 
 import errorMiddleware from "./middlewares/error.middleware";
@@ -34,6 +35,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/cars", carRouter);
 app.use("/api/instructors", instructorRouter);
+app.use("/api/groups", groupRouter);
 
 app.use(errorMiddleware);
 
