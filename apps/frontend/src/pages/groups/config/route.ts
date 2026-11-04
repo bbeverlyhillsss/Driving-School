@@ -1,5 +1,5 @@
 import type { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
-import GroupsPage from '../GroupsPage.vue'
+import GroupsPage from '../ui/GroupsPage.vue'
 
 const GROUPS_ROUTE_NAME = 'groups'
 
