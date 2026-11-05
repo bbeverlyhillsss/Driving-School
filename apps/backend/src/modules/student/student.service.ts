@@ -1,6 +1,7 @@
 import type { Prisma } from "../../../generated/prisma/client";
 import { prisma } from "../../config/database";
-import { Role } from "../../../generated/prisma/client";
+import type { SharedStudent } from "@driving-school/shared";
+import { studentInclude, toSharedStudent } from "./student.mapper.js";
 
 type PrismaTransactionClient = Prisma.TransactionClient;
 
@@ -23,6 +24,15 @@ export const createStudentProfile = async (
   });
 };
 
+export const getAll = async (): Promise<SharedStudent[]> => {
+  const students = await prisma.student.findMany({
+    include: studentInclude,
+    orderBy: { fullName: "asc" },
+  });
+  return students.map(toSharedStudent);
+};
+
 export default {
   createStudentProfile,
+  getAll,
 };
