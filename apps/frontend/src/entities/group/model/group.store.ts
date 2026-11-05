@@ -46,5 +46,11 @@ export const useGroupStore = defineStore('group', () => {
     return response
   }
 
-  return { items, isLoading, loadError, load, create, update, remove }
+  const setStudentsCount = (id: number, count: number): void => {
+    items.value = items.value.map((item) =>
+      item.id === id ? { ...item, studentsCount: count } : item,
+    )
+  }
+
+  return { items, isLoading, loadError, load, create, update, remove, setStudentsCount }
 })
