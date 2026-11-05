@@ -16,3 +16,6 @@ export * from './schemas/instructor.schema'
 
 export * from "./types/group";
 export * from './schemas/group.schema'
+export * from "./types/student";
+export * from "./types/group-member";
+export * from './schemas/group-student.schema'
