@@ -5,7 +5,7 @@ import { Role } from "@driving-school/shared";
 import type { GroupPayload, JwtPayload, SharedGroup } from "@driving-school/shared";
 import { groupInclude, toSharedGroup } from "./group.mapper.js";
 
-const visibleTo = (user: JwtPayload): Prisma.GroupWhereInput => {
+export const visibleTo = (user: JwtPayload): Prisma.GroupWhereInput => {
   if (user.role === Role.ADMIN) return {};
   if (user.role === Role.INSTRUCTOR) return { instructor: { userId: user.id } };
   return { students: { some: { userId: user.id } } };

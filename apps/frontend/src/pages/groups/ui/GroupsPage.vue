@@ -4,6 +4,13 @@
 
     <CreateGroup v-if="isCreating" @close="isCreating = false" />
     <EditGroup v-if="editing" :key="editing.id" :group="editing" @close="editing = null" />
+    <GroupMembers
+      v-if="viewingMembers"
+      :key="viewingMembers.id"
+      :group="viewingMembers"
+      :can-manage="isAdmin"
+      @close="viewingMembers = null"
+    />
 
     <div class="flex items-center gap-2">
       <BaseSearchInput
@@ -26,12 +33,17 @@
         </BaseButton>
       </template>
 
-      <template v-if="isAdmin" #actions="{ group }">
+      <template #actions="{ group }">
         <div class="flex justify-end gap-1">
-          <BaseIconButton label="Edit" @click="editing = group">
-            <Pencil :size="16" />
+          <BaseIconButton label="Members" @click="viewingMembers = group">
+            <Users :size="16" />
           </BaseIconButton>
-          <DeleteGroup :group />
+          <template v-if="isAdmin">
+            <BaseIconButton label="Edit" @click="editing = group">
+              <Pencil :size="16" />
+            </BaseIconButton>
+            <DeleteGroup :group />
+          </template>
         </div>
       </template>
     </GroupTable>
@@ -40,7 +52,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { ListFilter, Pencil, Plus } from 'lucide-vue-next'
+import { ListFilter, Pencil, Plus, Users } from 'lucide-vue-next'
 import { Role } from '@driving-school/shared'
 import type { SharedGroup } from '@driving-school/shared'
 import { useUserStore } from '@/entities/user'
@@ -49,6 +61,7 @@ import { useInstructorStore } from '@/entities/instructor'
 import { CreateGroup } from '@/features/group/create'
 import { EditGroup } from '@/features/group/edit'
 import { DeleteGroup } from '@/features/group/delete'
+import { GroupMembers } from '@/features/group/members'
 import { BaseButton } from '@/shared/ui/button'
 import { BaseIconButton } from '@/shared/ui/icon-button'
 import { BaseSearchInput } from '@/shared/ui/search-input'
@@ -60,6 +73,7 @@ const instructorStore = useInstructorStore()
 const isAdmin = computed(() => userStore.role === Role.ADMIN)
 const isCreating = ref(false)
 const editing = ref<SharedGroup | null>(null)
+const viewingMembers = ref<SharedGroup | null>(null)
 const search = ref('')
 
 const filteredItems = computed(() => {
