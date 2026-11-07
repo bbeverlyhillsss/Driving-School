@@ -1,0 +1,1 @@
+export { default as EditStudent } from './ui/EditStudent.vue'

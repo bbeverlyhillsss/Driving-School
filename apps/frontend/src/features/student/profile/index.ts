@@ -1,0 +1,1 @@
+export { default as StudentProfile } from './ui/StudentProfile.vue'
