@@ -49,7 +49,9 @@
                 :key="student.id"
                 :value="String(student.id)"
               >
-                {{ student.fullName }} ({{ student.email }})
+                {{ student.fullName }} ({{ student.email }}){{
+                  student.birthDate ? '' : ' · no birth date'
+                }}
               </option>
             </BaseSelect>
           </div>

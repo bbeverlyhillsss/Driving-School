@@ -12,6 +12,7 @@ import { CATEGORIES_ROUTE } from '@/pages/categories'
 import { CARS_ROUTE } from '@/pages/cars'
 import { INSTRUCTORS_ROUTE } from '@/pages/instructors'
 import { GROUPS_ROUTE } from '@/pages/groups'
+import { STUDENTS_ROUTE } from '@/pages/students'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -36,6 +37,7 @@ const router = createRouter({
         CARS_ROUTE,
         INSTRUCTORS_ROUTE,
         GROUPS_ROUTE,
+        STUDENTS_ROUTE,
       ],
     },
   ],
