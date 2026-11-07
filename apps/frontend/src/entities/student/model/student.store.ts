@@ -1,7 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { SharedStudent } from '@driving-school/shared'
+import type { SharedStudent, StudentUpdatePayload } from '@driving-school/shared'
 import { getStudents } from '../api/get-students'
+import { updateStudent } from '../api/update-student'
 
 export const useStudentStore = defineStore('student', () => {
   const items = ref<SharedStudent[]>([])
@@ -23,9 +24,17 @@ export const useStudentStore = defineStore('student', () => {
     items.value = response.data
   }
 
+  const update = async (id: number, payload: StudentUpdatePayload) => {
+    const response = await updateStudent(id, payload)
+    if (response.ok) {
+      items.value = items.value.map((item) => (item.id === id ? response.data : item))
+    }
+    return response
+  }
+
   const setGroup = (studentId: number, group: SharedStudent['group']): void => {
     items.value = items.value.map((item) => (item.id === studentId ? { ...item, group } : item))
   }
 
-  return { items, isLoading, loadError, load, setGroup }
+  return { items, isLoading, loadError, load, update, setGroup }
 })
