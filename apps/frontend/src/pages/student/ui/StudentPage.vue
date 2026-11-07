@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <h1 class="text-2xl font-bold text-slate-900">Student</h1>
-    <p class="mt-2 text-slate-600">Wait to be assigned to a group.</p>
+  <div class="flex flex-col gap-6">
+    <h1 class="text-2xl font-bold text-zinc-900">My workspace</h1>
+    <StudentProfile />
   </div>
 </template>
+
+<script setup lang="ts">
+import { StudentProfile } from '@/features/student/profile'
+</script>
