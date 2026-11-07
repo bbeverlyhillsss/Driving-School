@@ -1,5 +1,6 @@
 import { prisma } from "../../config/database.js";
 import ApiError from "../../exceptions/api.error.js";
+import { getAge } from "../../utils/get-age.js";
 import { Role, StudentStatus } from "@driving-school/shared";
 import type { JwtPayload, SharedGroupMember } from "@driving-school/shared";
 import { visibleTo } from "./group.service.js";
@@ -33,7 +34,11 @@ export const addMember = async (
 ): Promise<SharedGroupMember> => {
   const group = await prisma.group.findUnique({
     where: { id: groupId },
-    select: { endDate: true },
+    select: {
+      startDate: true,
+      endDate: true,
+      category: { select: { minAge: true } },
+    },
   });
   if (!group) {
     throw ApiError.NotFound("Group not found.");
@@ -42,23 +47,38 @@ export const addMember = async (
     throw ApiError.BadRequest("Group has already ended.");
   }
 
+  const student = await prisma.student.findUnique({
+    where: { id: studentId },
+    select: { groupId: true, status: true, birthDate: true },
+  });
+  if (!student) {
+    throw ApiError.BadRequest("Student not found.");
+  }
+  if (student.groupId !== null) {
+    throw ApiError.BadRequest("Student is already in a group.");
+  }
+  if (student.status !== StudentStatus.ACTIVE) {
+    throw ApiError.BadRequest("Only active students can be added to a group.");
+  }
+
+  const minAge = group.category.minAge;
+  if (minAge !== null) {
+    if (!student.birthDate) {
+      throw ApiError.BadRequest("Student birth date is required to join a group.");
+    }
+    if (getAge(student.birthDate, group.startDate) < minAge) {
+      throw ApiError.BadRequest(
+        `Student must be at least ${minAge} years old on the group start date.`,
+      );
+    }
+  }
+
   const result = await prisma.student.updateMany({
     where: { id: studentId, groupId: null, status: StudentStatus.ACTIVE },
     data: { groupId },
   });
-
   if (result.count === 0) {
-    const student = await prisma.student.findUnique({
-      where: { id: studentId },
-      select: { groupId: true },
-    });
-    if (!student) {
-      throw ApiError.BadRequest("Student not found.");
-    }
-    if (student.groupId !== null) {
-      throw ApiError.BadRequest("Student is already in a group.");
-    }
-    throw ApiError.BadRequest("Only active students can be added to a group.");
+    throw ApiError.BadRequest("Student is not available for this group.");
   }
 
   const added = await prisma.student.findUniqueOrThrow({
