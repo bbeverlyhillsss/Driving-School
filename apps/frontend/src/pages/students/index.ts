@@ -1,0 +1,1 @@
+export { STUDENTS_LINK, STUDENTS_ROUTE } from './config/route'

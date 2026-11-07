@@ -97,7 +97,7 @@ model Student {
   userId    Int           @unique @map("user_id")
   groupId   Int?          @map("group_id")
   fullName  String        @map("full_name")
-  birthDate DateTime?     @map("birth_date")
+  birthDate DateTime? @db.Date @map("birth_date")
   phone     String?
   address   String?
   status    StudentStatus

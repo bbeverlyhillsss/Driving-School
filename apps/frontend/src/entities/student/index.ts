@@ -1,1 +1,6 @@
 export { useStudentStore } from './model/student.store'
+export { useStudentProfileStore } from './model/student-profile.store'
+export { default as StudentTable } from './ui/StudentTable.vue'
+export { default as StudentForm } from './ui/StudentForm.vue'
+export { toStudentFormValues, toStudentSelfInput, toStudentUpdateInput } from './model/student-form'
+export type { StudentFormErrors, StudentFormValues } from './model/student-form'

@@ -69,10 +69,12 @@ import { ROLE_HOME_LINK } from '../router/role-home'
 import { CARS_LINK } from '@/pages/cars'
 import { INSTRUCTORS_LINK } from '@/pages/instructors'
 import { GROUPS_LINK } from '@/pages/groups'
+import { STUDENTS_LINK } from '@/pages/students'
 
 interface Link {
   to: RouteLocationRaw
   name: string
+  roles?: readonly Role[]
 }
 
 const userStore = useUserStore()
@@ -89,13 +91,20 @@ const homeLink = computed<RouteLocationRaw>(() =>
   userStore.role ? ROLE_HOME_LINK[userStore.role] : ROOT_LINK,
 )
 
-const links = computed<Link[]>(() => [
+const allLinks = computed<Link[]>(() => [
   { to: homeLink.value, name: 'My Workspace' },
   { to: CATEGORIES_LINK, name: 'Categories' },
   { to: CARS_LINK, name: 'Cars' },
   { to: INSTRUCTORS_LINK, name: 'Instructors' },
   { to: GROUPS_LINK, name: 'Groups' },
+  { to: STUDENTS_LINK, name: 'Students', roles: [Role.ADMIN] },
 ])
+
+const links = computed(() =>
+  allLinks.value.filter(
+    (link) => !link.roles || (userStore.role !== null && link.roles.includes(userStore.role)),
+  ),
+)
 
 const linkBase =
   'flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-300'
