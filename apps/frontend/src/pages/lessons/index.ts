@@ -1,0 +1,1 @@
+export { LESSONS_LINK, LESSONS_ROUTE } from './config/route'

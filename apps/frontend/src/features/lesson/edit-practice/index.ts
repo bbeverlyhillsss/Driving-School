@@ -1,0 +1,1 @@
+export { default as EditPractice } from './ui/EditPractice.vue'

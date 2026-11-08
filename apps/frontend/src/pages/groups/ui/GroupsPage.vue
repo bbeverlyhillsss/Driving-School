@@ -39,6 +39,7 @@
             <Users :size="16" />
           </BaseIconButton>
           <template v-if="isAdmin">
+            <GenerateTheory v-if="group.lessonsCount === 0" :group />
             <BaseIconButton label="Edit" @click="editing = group">
               <Pencil :size="16" />
             </BaseIconButton>
@@ -65,6 +66,7 @@ import { GroupMembers } from '@/features/group/members'
 import { BaseButton } from '@/shared/ui/button'
 import { BaseIconButton } from '@/shared/ui/icon-button'
 import { BaseSearchInput } from '@/shared/ui/search-input'
+import { GenerateTheory } from '@/features/group/generate-theory'
 
 const userStore = useUserStore()
 const groupStore = useGroupStore()

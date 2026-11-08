@@ -1,0 +1,1 @@
+export { default as CreatePractice } from './ui/CreatePractice.vue'

@@ -1,0 +1,1 @@
+export { default as GenerateTheory } from './ui/GenerateTheory.vue'
