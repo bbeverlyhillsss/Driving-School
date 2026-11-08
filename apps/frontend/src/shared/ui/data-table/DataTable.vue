@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-zinc-200">
-          <tr v-for="item in items" :key="item.id" class="transition-colors hover:bg-zinc-50">
+          <tr v-for="item in items" :key="keyOf(item)" class="transition-colors hover:bg-zinc-50">
             <td v-for="column in columns" :key="column.key" :class="cellClasses(column, item)">
               {{ column.value(item) }}
             </td>
@@ -43,16 +43,17 @@
   </div>
 </template>
 
-<script setup lang="ts" generic="T extends { id: number }">
+<script setup lang="ts" generic="T extends object">
 import { computed } from 'vue'
 import type { Column } from './types'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     columns: Column<T>[]
     items: T[]
     total?: number
     emptyText?: string
+    rowKey?: (item: T) => string | number
   }>(),
   { emptyText: 'No data found.' },
 )
@@ -63,6 +64,9 @@ const slots = defineSlots<{
 }>()
 
 const hasActions = computed(() => !!slots.actions || !!slots['header-actions'])
+
+const keyOf = (item: T): string | number =>
+  props.rowKey ? props.rowKey(item) : (item as unknown as { id: number }).id
 
 const cellClasses = (column: Column<T>, item: T): string => {
   const custom = column.cellClass?.(item)
