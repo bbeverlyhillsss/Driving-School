@@ -26,3 +26,6 @@ export * from './constants/schedule'
 export * from './utils/work-days'
 export * from './types/lesson'
 export * from './schemas/lesson.schema'
+
+export * from './types/exam'
+export * from './schemas/exam.schema'
