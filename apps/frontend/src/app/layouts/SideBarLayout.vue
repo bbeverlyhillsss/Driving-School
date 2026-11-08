@@ -71,6 +71,7 @@ import { INSTRUCTORS_LINK } from '@/pages/instructors'
 import { GROUPS_LINK } from '@/pages/groups'
 import { STUDENTS_LINK } from '@/pages/students'
 import { LESSONS_LINK } from '@/pages/lessons'
+import { EXAMS_LINK } from '@/pages/exams'
 
 interface Link {
   to: RouteLocationRaw
@@ -100,6 +101,7 @@ const allLinks = computed<Link[]>(() => [
   { to: GROUPS_LINK, name: 'Groups' },
   { to: STUDENTS_LINK, name: 'Students', roles: [Role.ADMIN] },
   { to: LESSONS_LINK, name: 'Lessons', roles: [Role.ADMIN] },
+  { to: EXAMS_LINK, name: 'Exams', roles: [Role.ADMIN] },
 ])
 
 const links = computed(() =>

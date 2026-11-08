@@ -1,0 +1,1 @@
+export { default as EditExam } from './ui/EditExam.vue'

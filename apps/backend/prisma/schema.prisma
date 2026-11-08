@@ -201,7 +201,7 @@ model Payment {
 
 model Exam {
   studentId Int         @map("student_id")
-  date      DateTime
+  date      DateTime    @db.Date
   type      LessonType
   result    ExamResult?
   score     Int?

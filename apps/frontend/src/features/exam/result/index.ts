@@ -1,0 +1,1 @@
+export { default as ExamResults } from './ui/ExamResults.vue'

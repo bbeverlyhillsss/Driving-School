@@ -1,0 +1,1 @@
+export { default as DeleteExam } from './ui/DeleteExam.vue'
