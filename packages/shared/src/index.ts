@@ -21,3 +21,8 @@ export * from "./types/group-member";
 export * from './schemas/group-student.schema'
 
 export * from './schemas/student.schema'
+
+export * from './constants/schedule'
+export * from './utils/work-days'
+export * from './types/lesson'
+export * from './schemas/lesson.schema'
