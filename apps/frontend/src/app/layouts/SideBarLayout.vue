@@ -99,7 +99,6 @@ const allLinks = computed<Link[]>(() => [
   { to: INSTRUCTORS_LINK, name: 'Instructors' },
   { to: GROUPS_LINK, name: 'Groups' },
   { to: STUDENTS_LINK, name: 'Students', roles: [Role.ADMIN] },
-  { to: STUDENTS_LINK, name: 'Students', roles: [Role.ADMIN] },
   { to: LESSONS_LINK, name: 'Lessons', roles: [Role.ADMIN] },
 ])
 
