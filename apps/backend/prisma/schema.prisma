@@ -48,6 +48,11 @@ enum PaymentStatus {
   PENDING
 }
 
+enum GroupShift {
+  MORNING
+  EVENING
+}
+
 // MODELS
 
 model User {
@@ -147,6 +152,7 @@ model Group {
   categoryId   Int       @map("category_id")
   instructorId Int       @map("instructor_id")
   name         String     @unique
+  shift        GroupShift @default(MORNING)
   startDate    DateTime   @db.Date @map("start_date")
   endDate      DateTime   @db.Date @map("end_date")
 
@@ -165,10 +171,10 @@ model Lesson {
   groupId      Int?          @map("group_id")
   carId        Int?          @map("car_id")
   type         LessonType
-  date         DateTime
-  startTime    DateTime      @map("start_time")
-  endTime      DateTime      @map("end_time")
-  status       LessonStatus?
+  date         DateTime      @db.Date
+  startTime    DateTime      @db.Time @map("start_time")
+  endTime      DateTime      @db.Time @map("end_time")
+  status       LessonStatus  @default(PLANNED)
 
   instructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Restrict)
   student    Student?   @relation(fields: [studentId], references: [id], onDelete: Restrict)
