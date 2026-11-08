@@ -30,13 +30,19 @@
 
       <p class="text-sm text-zinc-400 sm:col-span-2">{{ categoryHint }}</p>
 
+      <BaseFormField v-slot="{ id, invalid }" label="Shift" :error="errors.shift">
+        <BaseSelect :id="id" v-model="form.shift" :invalid="invalid">
+          <option v-for="option in GROUP_SHIFT_OPTIONS" :key="option.value" :value="option.value">
+            {{ option.label }}
+          </option>
+        </BaseSelect>
+      </BaseFormField>
+
       <BaseFormField v-slot="{ id, invalid }" label="Start date" :error="errors.startDate">
         <BaseInput :id="id" v-model="form.startDate" type="date" :invalid="invalid" />
       </BaseFormField>
 
-      <BaseFormField v-slot="{ id, invalid }" label="End date" :error="errors.endDate">
-        <BaseInput :id="id" v-model="form.endDate" type="date" :invalid="invalid" />
-      </BaseFormField>
+      <p class="text-sm text-zinc-400 sm:col-span-2">{{ endDateHint }}</p>
     </div>
 
     <p v-if="serverError" role="alert" class="text-sm text-red-400">{{ serverError }}</p>
@@ -50,12 +56,14 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
+import { getGroupEndDate } from '@driving-school/shared'
 import type { SharedInstructor } from '@driving-school/shared'
 import { BaseButton } from '@/shared/ui/button'
 import { BaseInput } from '@/shared/ui/input'
 import { BaseSelect } from '@/shared/ui/select'
 import { BaseFormField } from '@/shared/ui/form-field'
 import { createEmptyGroupForm } from '../model/group-form'
+import { GROUP_SHIFT_OPTIONS } from '../model/group-shift'
 import type { GroupFormErrors, GroupFormValues } from '../model/group-form'
 
 const props = withDefaults(
@@ -102,5 +110,11 @@ const categoryHint = computed(() => {
     return `Category ${selectedInstructor.value.category.name} is taken from the instructor.`
   }
   return 'The group category is taken from the selected instructor.'
+})
+
+const endDateHint = computed(() => {
+  if (!form.startDate) return 'The end date is calculated automatically: 20 working days.'
+  const end = new Date(`${getGroupEndDate(form.startDate)}T00:00:00`)
+  return `The course ends on ${end.toLocaleDateString('uk-UA')} (20 working days).`
 })
 </script>

@@ -13,6 +13,7 @@
 import type { SharedGroup } from '@driving-school/shared'
 import { DataTable } from '@/shared/ui/data-table'
 import type { Column } from '@/shared/ui/data-table'
+import { GROUP_SHIFT_SHORT } from '../model/group-shift'
 
 defineProps<{ items: SharedGroup[]; total?: number }>()
 
@@ -28,6 +29,7 @@ const columns: Column<SharedGroup>[] = [
   { key: 'name', header: 'Name', emphasis: true, value: (g) => g.name },
   { key: 'category', header: 'Category', value: (g) => g.category.name },
   { key: 'instructor', header: 'Instructor', value: (g) => g.instructor.fullName },
+  { key: 'shift', header: 'Shift', value: (g) => GROUP_SHIFT_SHORT[g.shift] },
   { key: 'startDate', header: 'Start date', value: (g) => formatDate(g.startDate) },
   { key: 'endDate', header: 'End date', value: (g) => formatDate(g.endDate) },
   { key: 'students', header: 'Students', value: (g) => String(g.studentsCount) },
