@@ -1,0 +1,1 @@
+export { default as LessonSchedule } from './ui/LessonSchedule.vue'
