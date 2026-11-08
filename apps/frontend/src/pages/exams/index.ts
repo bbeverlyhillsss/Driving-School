@@ -1,0 +1,1 @@
+export { EXAMS_LINK, EXAMS_ROUTE } from './config/route'

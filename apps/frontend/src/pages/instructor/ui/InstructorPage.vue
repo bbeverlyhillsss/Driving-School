@@ -27,6 +27,7 @@
       </section>
 
       <LessonSchedule perspective="instructor" />
+      <ExamResults perspective="instructor" />
     </template>
   </div>
 </template>
@@ -35,20 +36,23 @@
 import { onMounted, ref } from 'vue'
 import { Users } from 'lucide-vue-next'
 import type { SharedGroup } from '@driving-school/shared'
+import { useExamStore } from '@/entities/exam'
 import { GroupTable, useGroupStore } from '@/entities/group'
 import { useLessonStore } from '@/entities/lesson'
+import { ExamResults } from '@/features/exam/result'
 import { GroupMembers } from '@/features/group/members'
 import { LessonSchedule } from '@/features/lesson/schedule'
 import { BaseIconButton } from '@/shared/ui/icon-button'
 
 const groupStore = useGroupStore()
 const lessonStore = useLessonStore()
+const examStore = useExamStore()
 
 const viewingMembers = ref<SharedGroup | null>(null)
 const isReady = ref(false)
 
 onMounted(async () => {
-  await Promise.all([groupStore.load(), lessonStore.load()])
+  await Promise.all([groupStore.load(), lessonStore.load(), examStore.load()])
   isReady.value = true
 })
 </script>
