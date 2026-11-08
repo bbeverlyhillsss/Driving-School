@@ -9,6 +9,7 @@ import {
   addMember,
   removeMember,
 } from "./group-member.controller.js";
+import { generateTheory } from "../lesson/lesson.controller.js";
 
 const groupRouter: Router = Router();
 
@@ -16,6 +17,7 @@ groupRouter.use(authMiddleware);
 
 groupRouter.get("/", getAll);
 groupRouter.post("/", checkRole(Role.ADMIN), validate(groupSchema), create);
+groupRouter.post("/:id/lessons/theory", checkRole(Role.ADMIN), generateTheory);
 groupRouter.put("/:id", checkRole(Role.ADMIN), validate(groupSchema), update);
 groupRouter.delete("/:id", checkRole(Role.ADMIN), remove);
 
