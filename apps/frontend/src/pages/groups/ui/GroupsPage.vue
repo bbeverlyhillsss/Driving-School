@@ -45,12 +45,6 @@
             </BaseIconButton>
             <DeleteGroup :group />
           </template>
-          <template v-if="isAdmin">
-            <BaseIconButton label="Edit" @click="editing = group">
-              <Pencil :size="16" />
-            </BaseIconButton>
-            <DeleteGroup :group />
-          </template>
         </div>
       </template>
     </GroupTable>
