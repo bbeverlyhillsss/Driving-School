@@ -2,6 +2,7 @@ import { LessonStatus, LessonType } from '@driving-school/shared'
 import type { SharedLesson } from '@driving-school/shared'
 
 export type LessonState = 'planned' | 'held' | 'cancelled'
+export type LessonPerspective = 'admin' | 'student' | 'instructor'
 
 export const LESSON_STATE_LABEL: Record<LessonState, string> = {
   planned: 'Planned',
@@ -30,3 +31,20 @@ export const isLessonCancellable = (lesson: SharedLesson): boolean =>
 
 export const isLessonEditable = (lesson: SharedLesson): boolean =>
   lesson.type === LessonType.PRACTICE && getLessonState(lesson) === 'planned'
+
+export const formatLessonDate = (value: string): string =>
+  new Date(`${value}T00:00:00`).toLocaleDateString('uk-UA', {
+    weekday: 'short',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+
+export const getLessonCounterpart = (
+  lesson: SharedLesson,
+  perspective: LessonPerspective,
+): string => {
+  if (perspective === 'student') return lesson.instructor.fullName
+  if (lesson.type === LessonType.THEORY) return lesson.group?.name ?? '—'
+  return lesson.student?.fullName ?? '—'
+}

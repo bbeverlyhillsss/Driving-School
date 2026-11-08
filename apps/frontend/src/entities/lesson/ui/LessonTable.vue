@@ -10,26 +10,28 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { LessonType } from '@driving-school/shared'
 import type { SharedLesson } from '@driving-school/shared'
 import { DataTable } from '@/shared/ui/data-table'
 import type { Column } from '@/shared/ui/data-table'
-import { getLessonState, LESSON_STATE_LABEL, LESSON_TYPE_LABEL } from '../model/lesson-view'
+import {
+  formatLessonDate,
+  getLessonState,
+  LESSON_STATE_LABEL,
+  LESSON_TYPE_LABEL,
+} from '../model/lesson-view'
+import type { LessonPerspective } from '../model/lesson-view'
 
-defineProps<{ items: SharedLesson[]; total?: number }>()
+const props = withDefaults(
+  defineProps<{ items: SharedLesson[]; total?: number; perspective?: LessonPerspective }>(),
+  { perspective: 'admin' },
+)
 
 defineSlots<{
   'header-actions'?(): unknown
   actions?(props: { lesson: SharedLesson }): unknown
 }>()
-
-const formatDate = (value: string): string =>
-  new Date(`${value}T00:00:00`).toLocaleDateString('uk-UA', {
-    weekday: 'short',
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
 
 const stateClass = (lesson: SharedLesson): string | undefined => {
   const state = getLessonState(lesson)
@@ -38,26 +40,66 @@ const stateClass = (lesson: SharedLesson): string | undefined => {
   return undefined
 }
 
-const columns: Column<SharedLesson>[] = [
-  { key: 'date', header: 'Date', emphasis: true, value: (l) => formatDate(l.date) },
-  { key: 'time', header: 'Time', value: (l) => `${l.startTime}–${l.endTime}` },
-  { key: 'type', header: 'Type', value: (l) => LESSON_TYPE_LABEL[l.type] },
-  {
-    key: 'participant',
-    header: 'Group / Student',
-    value: (l) => (l.type === LessonType.THEORY ? (l.group?.name ?? '—') : (l.student?.fullName ?? '—')),
-  },
-  { key: 'instructor', header: 'Instructor', value: (l) => l.instructor.fullName },
-  {
-    key: 'car',
-    header: 'Car',
-    value: (l) => (l.car ? `${l.car.brand} ${l.car.model} · ${l.car.plateNumber}` : '—'),
-  },
-  {
-    key: 'status',
-    header: 'Status',
-    value: (l) => LESSON_STATE_LABEL[getLessonState(l)],
-    cellClass: stateClass,
-  },
-]
+const dateColumn: Column<SharedLesson> = {
+  key: 'date',
+  header: 'Date',
+  emphasis: true,
+  value: (l) => formatLessonDate(l.date),
+}
+
+const timeColumn: Column<SharedLesson> = {
+  key: 'time',
+  header: 'Time',
+  value: (l) => `${l.startTime}–${l.endTime}`,
+}
+
+const typeColumn: Column<SharedLesson> = {
+  key: 'type',
+  header: 'Type',
+  value: (l) => LESSON_TYPE_LABEL[l.type],
+}
+
+const participantColumn: Column<SharedLesson> = {
+  key: 'participant',
+  header: 'Group / Student',
+  value: (l) =>
+    l.type === LessonType.THEORY ? (l.group?.name ?? '—') : (l.student?.fullName ?? '—'),
+}
+
+const instructorColumn: Column<SharedLesson> = {
+  key: 'instructor',
+  header: 'Instructor',
+  value: (l) => l.instructor.fullName,
+}
+
+const carColumn: Column<SharedLesson> = {
+  key: 'car',
+  header: 'Car',
+  value: (l) => (l.car ? `${l.car.brand} ${l.car.model} · ${l.car.plateNumber}` : '—'),
+}
+
+const statusColumn: Column<SharedLesson> = {
+  key: 'status',
+  header: 'Status',
+  value: (l) => LESSON_STATE_LABEL[getLessonState(l)],
+  cellClass: stateClass,
+}
+
+const columns = computed<Column<SharedLesson>[]>(() => {
+  if (props.perspective === 'student') {
+    return [dateColumn, timeColumn, typeColumn, instructorColumn, carColumn, statusColumn]
+  }
+  if (props.perspective === 'instructor') {
+    return [dateColumn, timeColumn, typeColumn, participantColumn, carColumn, statusColumn]
+  }
+  return [
+    dateColumn,
+    timeColumn,
+    typeColumn,
+    participantColumn,
+    instructorColumn,
+    carColumn,
+    statusColumn,
+  ]
+})
 </script>
