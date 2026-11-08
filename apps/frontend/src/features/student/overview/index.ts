@@ -1,0 +1,1 @@
+export { default as StudentOverview } from './ui/StudentOverview.vue'
