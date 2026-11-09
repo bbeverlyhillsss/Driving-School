@@ -15,6 +15,10 @@ const envSchema = z.object({
   ADMIN_PASSWORD: z
     .string()
     .min(8, "ADMIN_PASSWORD must be at least 8 characters"),
+  DEMO_PASSWORD: z
+    .string()
+    .min(8, "DEMO_PASSWORD must be at least 8 characters")
+    .optional(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

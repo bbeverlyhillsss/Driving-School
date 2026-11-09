@@ -1,14 +1,11 @@
-import type { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
+import type {  RouteRecordRaw } from 'vue-router'
 import CategoriesPage from '../ui/CategoriesPage.vue'
 
-const CATEGORIES_ROUTE_NAME = 'categories'
-
-export const CATEGORIES_LINK = {
-  name: CATEGORIES_ROUTE_NAME,
-} as const satisfies RouteLocationRaw
+import { CATEGORIES_LINK } from '@/shared/config'
+export { CATEGORIES_LINK }
 
 export const CATEGORIES_ROUTE = {
   path: '/categories',
-  name: CATEGORIES_ROUTE_NAME,
+  name: CATEGORIES_LINK.name,
   component: CategoriesPage,
 } satisfies RouteRecordRaw

@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "seed": "prisma db seed --config prisma7.config.ts"
+    "seed": "prisma db seed --config prisma7.config.ts",
+    "seed:demo": "tsx prisma/seed-demo.ts"
   },
   "keywords": [],
   "author": "",
