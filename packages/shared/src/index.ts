@@ -32,3 +32,5 @@ export * from './schemas/exam.schema'
 
 export * from './types/payment'
 export * from './schemas/payment.schema'
+
+export * from './types/overview'
