@@ -11,6 +11,7 @@ import studentRouter from "./modules/student/student.router.js";
 import lessonRouter from "./modules/lesson/lesson.router.js";
 import examRouter from "./modules/exam/exam.router.js";
 import paymentRouter from "./modules/payment/payment.router.js";
+import overviewRouter from "./modules/overview/overview.router";
 
 import errorMiddleware from "./middlewares/error.middleware";
 
@@ -40,6 +41,7 @@ app.use("/api/students", studentRouter);
 app.use("/api/lessons", lessonRouter);
 app.use("/api/exams", examRouter);
 app.use("/api/payments", paymentRouter);
+app.use("/api/overview", overviewRouter);
 
 app.use(errorMiddleware);
 
