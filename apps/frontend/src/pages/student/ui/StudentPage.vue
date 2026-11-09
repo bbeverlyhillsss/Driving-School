@@ -7,6 +7,7 @@
       <StudentOverview />
       <LessonSchedule perspective="student" />
       <ExamResults perspective="student" />
+      <PaymentHistory />
     </template>
 
     <StudentProfile />
@@ -20,8 +21,10 @@ import { useExamStore } from '@/entities/exam'
 import { useGroupStore } from '@/entities/group'
 import { useInstructorStore } from '@/entities/instructor'
 import { useLessonStore } from '@/entities/lesson'
+import { usePaymentStore } from '@/entities/payment'
 import { ExamResults } from '@/features/exam/result'
 import { LessonSchedule } from '@/features/lesson/schedule'
+import { PaymentHistory } from '@/features/payment/history'
 import { StudentOverview } from '@/features/student/overview'
 import { StudentProfile } from '@/features/student/profile'
 
@@ -30,6 +33,7 @@ const instructorStore = useInstructorStore()
 const categoryStore = useCategoryStore()
 const lessonStore = useLessonStore()
 const examStore = useExamStore()
+const paymentStore = usePaymentStore()
 
 const isReady = ref(false)
 
@@ -40,6 +44,7 @@ onMounted(async () => {
     categoryStore.load(),
     lessonStore.load(),
     examStore.load(),
+    paymentStore.load(),
   ])
   isReady.value = true
 })
