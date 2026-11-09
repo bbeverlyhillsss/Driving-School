@@ -10,6 +10,7 @@ import groupRouter from "./modules/group/group.router.js";
 import studentRouter from "./modules/student/student.router.js";
 import lessonRouter from "./modules/lesson/lesson.router.js";
 import examRouter from "./modules/exam/exam.router.js";
+import paymentRouter from "./modules/payment/payment.router.js";
 
 import errorMiddleware from "./middlewares/error.middleware";
 
@@ -38,6 +39,7 @@ app.use("/api/groups", groupRouter);
 app.use("/api/students", studentRouter);
 app.use("/api/lessons", lessonRouter);
 app.use("/api/exams", examRouter);
+app.use("/api/payments", paymentRouter);
 
 app.use(errorMiddleware);
 
