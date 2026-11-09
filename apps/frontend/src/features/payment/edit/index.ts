@@ -1,0 +1,1 @@
+export { default as EditPayment } from './ui/EditPayment.vue'

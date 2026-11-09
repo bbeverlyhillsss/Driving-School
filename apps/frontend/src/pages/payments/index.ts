@@ -1,0 +1,1 @@
+export { PAYMENTS_LINK, PAYMENTS_ROUTE } from './config/route'

@@ -185,12 +185,12 @@ model Lesson {
 }
 
 model Payment {
-  id         Int            @id @default(autoincrement())
-  studentId  Int            @map("student_id")
-  categoryId Int            @map("category_id")
-  amount     Decimal
-  date       DateTime       @default(now())
-  status     PaymentStatus?
+  id         Int           @id @default(autoincrement())
+  studentId  Int           @map("student_id")
+  categoryId Int           @map("category_id")
+  amount     Decimal       @db.Decimal(10, 2)
+  date       DateTime      @default(now()) @db.Date
+  status     PaymentStatus @default(PAID)
   purpose    String?
 
   student  Student  @relation(fields: [studentId], references: [id], onDelete: Restrict)

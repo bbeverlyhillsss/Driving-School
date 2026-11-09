@@ -1,0 +1,1 @@
+export { default as PaymentHistory } from './ui/PaymentHistory.vue'
