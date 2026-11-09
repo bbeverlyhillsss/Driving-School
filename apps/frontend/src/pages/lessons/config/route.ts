@@ -1,16 +1,13 @@
-import type { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { Role } from '@driving-school/shared'
 import LessonsPage from '../ui/LessonsPage.vue'
 
-const LESSONS_ROUTE_NAME = 'lessons'
-
-export const LESSONS_LINK = {
-  name: LESSONS_ROUTE_NAME,
-} as const satisfies RouteLocationRaw
+import { LESSONS_LINK } from '@/shared/config'
+export { LESSONS_LINK }
 
 export const LESSONS_ROUTE = {
   path: '/lessons',
-  name: LESSONS_ROUTE_NAME,
+  name: LESSONS_LINK.name,
   component: LessonsPage,
   meta: { roles: [Role.ADMIN] },
 } satisfies RouteRecordRaw

@@ -1,3 +1,17 @@
-import { ROOT_LINK, LOGIN_LINK } from './route'
+// import { ROOT_LINK, LOGIN_LINK } from './route'
 
-export { ROOT_LINK, LOGIN_LINK }
+// export { ROOT_LINK, LOGIN_LINK }
+
+
+export {
+  ROOT_LINK,
+  LOGIN_LINK,
+  CATEGORIES_LINK,
+  CARS_LINK,
+  INSTRUCTORS_LINK,
+  GROUPS_LINK,
+  STUDENTS_LINK,
+  LESSONS_LINK,
+  EXAMS_LINK,
+  PAYMENTS_LINK,
+} from './route'

@@ -1,14 +1,11 @@
-import type { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import GroupsPage from '../ui/GroupsPage.vue'
 
-const GROUPS_ROUTE_NAME = 'groups'
-
-export const GROUPS_LINK = {
-  name: GROUPS_ROUTE_NAME,
-} as const satisfies RouteLocationRaw
+import { GROUPS_LINK } from '@/shared/config'
+export { GROUPS_LINK }
 
 export const GROUPS_ROUTE = {
   path: '/groups',
-  name: GROUPS_ROUTE_NAME,
+  name: GROUPS_LINK.name,
   component: GroupsPage,
 } satisfies RouteRecordRaw
