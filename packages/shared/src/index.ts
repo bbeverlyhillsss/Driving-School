@@ -29,3 +29,6 @@ export * from './schemas/lesson.schema'
 
 export * from './types/exam'
 export * from './schemas/exam.schema'
+
+export * from './types/payment'
+export * from './schemas/payment.schema'
