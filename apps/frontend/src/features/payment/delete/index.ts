@@ -1,0 +1,1 @@
+export { default as DeletePayment } from './ui/DeletePayment.vue'
